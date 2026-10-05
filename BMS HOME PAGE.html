@@ -201,6 +201,12 @@ footer li{margin:5px 0}
 .panel-number{width:42px;height:42px;border-radius:13px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;letter-spacing:.05em;box-shadow:0 8px 18px rgba(6,44,60,.15)}
 .panel-content{min-width:0}
 .panel-content h3{margin:4px 0 8px;color:var(--navy);font-size:23px;line-height:1.15}
+.research-title-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:4px 0 8px}
+.research-title-row h3{margin:0;flex:1}
+.research-view-btn{padding:9px 13px;border:1px solid #cfdfe4;background:#fff;color:var(--navy);font-size:11px;white-space:nowrap;box-shadow:none}
+.research-view-btn:hover{background:#eef6f8;border-color:#a9c5ce;transform:translateY(-2px)}
+@media(max-width:580px){.research-title-row{align-items:flex-start;flex-direction:column}.research-view-btn{width:100%}}
+
 .panel-lead{margin:0 0 18px;color:#596970;font-size:13px;line-height:1.7}
 .research-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px}
 .research-table{width:100%;border-collapse:collapse;min-width:820px;font-size:11px}
@@ -251,6 +257,13 @@ footer li{margin:5px 0}
 .department-photo img{display:block;width:100%;height:auto;max-height:none;object-fit:contain;object-position:center;background:#fff;border-radius:18px 18px 0 0}
 .department-photo figcaption{padding:12px 16px;font-size:12px;color:var(--muted);text-align:center;letter-spacing:.02em}
 @media(max-width:700px){.department-photo img{max-height:none}}
+
+.research-hub-note{margin:18px 0 0;padding:14px 16px;border:1px solid #dce8eb;border-radius:14px;background:#f6fafb;color:#5e6f77;font-size:12px;line-height:1.55}
+.research-hub-note strong{color:var(--navy)}
+.research-view-btn{transition:all .2s ease}
+.research-view-btn:focus-visible{outline:3px solid rgba(8,125,149,.22);outline-offset:2px}
+.research-card-link{cursor:pointer}
+
 </style>
 </head>
 <body>
@@ -427,14 +440,14 @@ footer li{margin:5px 0}
       <p>Explore the Department of Biomedical Sciences alumni media collection.</p>
     </div>
     <div class="library-grid compact-library">
-      <a class="media-panel compact-media-card reveal" href="photo-library.html" aria-label="Open Photo Library - All Photos">
+      <a class="media-panel compact-media-card reveal" href="PHOTO LIBRARY .html" aria-label="Open Photo Library - All Photos">
         <div class="compact-media-icon">📷</div>
         <div>
           <h3>Photo Library</h3>
           <p>All Photos →</p>
         </div>
       </a>
-      <a class="media-panel compact-media-card reveal" href="video-library-no-search.html" aria-label="Open Video Library">
+      <a class="media-panel compact-media-card reveal" href="VIDEO LIBRARY .html" aria-label="Open Video Library">
         <div class="compact-media-icon">▶</div>
         <div>
           <h3>Video Library</h3>
@@ -474,34 +487,17 @@ footer li{margin:5px 0}
       <p>A dedicated space for faculty scholarship, student-led research projects and student review-article work.</p>
     </div>
 
-    <div class="research-overview reveal">
-      <div class="research-stat"><strong>105+</strong><span>Approx. peer-reviewed publications across the departmental research portfolio</span></div>
-      <div class="research-stat"><strong>35+</strong><span>Completed or ongoing sponsored research projects</span></div>
-      <div class="research-stat"><strong>9</strong><span>Patents or patent applications reported in the Department publication</span></div>
+    
+      
+      
     </div>
 
-    <div class="research-subsections">
-      <article class="research-panel reveal" id="faculty-research-publications">
-        <div class="panel-number">01</div>
+    
         <div class="panel-content">
           <div class="kicker">Faculty Research &amp; Publications</div>
-          <h3>Research across biomedical and health-technology domains</h3>
+          
           <p class="panel-lead">Faculty research spans molecular oncology, structural bioinformatics, cancer genomics, nanomaterials, public health, nutraceuticals, cardiovascular genetics and artificial intelligence in healthcare.</p>
-          <div class="research-table-wrap">
-            <table class="research-table">
-              <thead><tr><th>Faculty</th><th>Primary research themes</th><th>Portfolio highlights</th></tr></thead>
-              <tbody>
-                <tr><td>Prof. R. Satyanarayana</td><td>Cancer stem cells · CKD epidemiology · Health informatics &amp; AI</td><td>68 publications · 11 projects · 8 patents</td></tr>
-                <tr><td>Dr. G. Gopikrishna</td><td>AI healthcare systems · Computational biology · Photonics/sensors</td><td>11 publications · 8 projects</td></tr>
-                <tr><td>Dr. R. Sriroop Reddy</td><td>Molecular dynamics · Cancer genomics · Antimicrobial research</td><td>14 publications · 1 project</td></tr>
-                <tr><td>Dr. C. Sai Kalyani Yogini</td><td>Marine bioactives · Nutraceuticals · Environmental sustainability</td><td>9 publications · 2 projects · 1 patent</td></tr>
-                <tr><td>Dr. M. Jeevan Kumar Madhavan</td><td>Rare genetic diseases · Cytogenomics</td><td>15 publications · 6 projects</td></tr>
-                <tr><td>Dr. Venkata Prasad Upadrasta</td><td>Community &amp; public health · Nutrition epidemiology</td><td>20 publications · 9 projects</td></tr>
-                <tr><td>Dr. A.V.R. Krishna Rao</td><td>Nanomaterials · Point-of-care sensors</td><td>4 publications · 1 patent</td></tr>
-                <tr><td>Dr. K. Sreedhar Naik</td><td>Cardiovascular genetics · Pharmacogenomics · Genomics &amp; bioinformatics</td><td>11 publications · 4 clinical trial projects</td></tr>
-              </tbody>
-            </table>
-          </div>
+          
           <p class="source-note">Department portfolio statistics above are drawn from the supplied Department publication; Dr. K. Sreedhar Naik's research themes are based on the supplied academic, research and publication profile.</p>
         </div>
       </article>
@@ -510,17 +506,16 @@ footer li{margin:5px 0}
         <div class="panel-number">02</div>
         <div class="panel-content">
           <div class="kicker">Student Research</div>
-          <h3>Undergraduate and postgraduate research experience</h3>
+          
           <p class="panel-lead">The Department's research framework gives students opportunities to work with faculty, partner laboratories and collaborating institutions through projects, internships and the Honours by Research pathway.</p>
-          <div class="student-research-grid">
-            <div class="student-project"><span class="project-tag">IIT Tirupati</span><h4>3D bioprinting of heart tissues</h4><p>Honours/research placement associated with B.Sc. Biomedical Sciences.</p></div>
+          
             <div class="student-project"><span class="project-tag">DRL Hyderabad</span><h4>Plant biotechnology &amp; cancer biology</h4><p>Student research exposure through the Dr. Reddy's Institute of Life Sciences.</p></div>
             <div class="student-project"><span class="project-tag">DRL Hyderabad</span><h4>Malaria research &amp; genetic engineering</h4><p>Research placement focused on applied molecular and biotechnology methods.</p></div>
             <div class="student-project"><span class="project-tag">Monash University Malaysia</span><h4>Curcumin analogues as anti-cancer agents</h4><p>Honours by Research project involving translational research exposure.</p></div>
             <div class="student-project"><span class="project-tag">IIT Ropar</span><h4>RNA biology</h4><p>One-year project placement in an RNA Biology laboratory.</p></div>
             <div class="student-project"><span class="project-tag">IISc Bangalore</span><h4>Six-month research internship</h4><p>Fourth-semester B.Sc. students undertook institutional research training at IISc.</p></div>
           </div>
-          <div class="research-callout"><strong>Research pathway</strong><span>Hypothesis formulation → experimental/computational design → data analysis → scientific writing → dissertation / presentation / publication</span></div>
+          
         </div>
       </article>
 
@@ -528,7 +523,7 @@ footer li{margin:5px 0}
         <div class="panel-number">03</div>
         <div class="panel-content">
           <div class="kicker">Student Review Articles</div>
-          <h3>A dedicated collection for student-led scientific reviews</h3>
+          
           <p class="panel-lead">This section is reserved for approved student review articles, literature reviews and scholarly synthesis projects produced under faculty mentorship.</p>
           <div class="review-placeholder">
             <div class="review-icon">↗</div>
@@ -616,7 +611,7 @@ footer li{margin:5px 0}
 
 <section class="cta"><div class="container"><div class="cta-box reveal"><div><h2>Learn · Explore · Research · Innovate · Lead</h2><p>This homepage is structured from the Department's Publication Edition 2022–2026. Explore the faculty profiles above, then continue to Alumni and Research as the department site grows.</p></div><a class="btn secondary" href="#home" style="white-space:nowrap">Back to top ↑</a></div></div></section>
 </main>
-<footer><div class="container footer-grid"><div><h3>Department of Biomedical Sciences</h3><p>School of Health Sciences<br>The Apollo University<br>Chittoor, Andhra Pradesh</p><p>Publication Edition · 2022–2026</p></div><div><h3>On this page</h3><ul><li><a href="#glance">Department at a Glance</a></li><li><a href="#vision">Vision, Mission & Objectives</a></li><li><a href="#programmes">Academic Portfolio</a></li><li><a href="#faculty">Faculty</a></li><li><a href="#alumni">Alumni Photo &amp; Video Library</a></li><li><a href="#success-stories">Alumni Success Stories</a></li><li><a href="#research">Research</a></li><li><a href="#contact">Contact Us</a></li><li><a href="#connect">Connect With Us</a></li></ul></div><div><h3>Theme</h3><ul><li>Learn</li><li>Explore</li><li>Research</li><li>Innovate</li><li>Lead</li></ul></div><div><h3>Follow Us</h3><div class="social-links"><a href="https://www.instagram.com/biomedical_sciences021/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor"/></svg></a><a href="https://www.linkedin.com/in/biomedical-science-tau-5b1a47440/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10v6M8 7.5v.1M12 16v-3.2a2.2 2.2 0 0 1 4.4 0V16M12 10v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a><a href="https://www.facebook.com/profile.php?id=61594677136094" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-8h2.7l.4-3H14V8.1c0-.9.3-1.6 1.7-1.6h1.7V3.8c-.3 0-1.4-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V10H8v3h2.7v8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a href="https://x.com/BIOMEDICALv0" target="_blank" rel="noopener noreferrer" aria-label="X" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4l14 16M19 4L5 20M7 4h3l7 16h-3L7 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div></div><div class="container footer-bottom"><span>© The Apollo University · Department of Biomedical Sciences</span><span>Single-page responsive HTML · no external libraries</span></div></footer>
+<footer><div class="container footer-grid"><div><h3>Department of Biomedical Sciences</h3><p>School of Health Sciences<br>The Apollo University<br>Chittoor, Andhra Pradesh</p><p>Publication Edition · 2022–2026</p></div><div><h3>On this page</h3><ul><li><a href="#glance">Department at a Glance</a></li><li><a href="#vision">Vision, Mission & Objectives</a></li><li><a href="#programmes">Academic Portfolio</a></li><li><a href="#faculty">Faculty</a></li><li><a href="VIDEO LIBRARY .html">Alumni Photo &amp; Video Library</a></li><li><a href="#success-stories">Alumni Success Stories</a></li><li><a href="#research">Research</a></li><li><a href="#contact">Contact Us</a></li><li><a href="#connect">Connect With Us</a></li></ul></div><div><h3>Theme</h3><ul><li>Learn</li><li>Explore</li><li>Research</li><li>Innovate</li><li>Lead</li></ul></div><div><h3>Follow Us</h3><div class="social-links"><a href="https://www.instagram.com/biomedical_sciences021/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor"/></svg></a><a href="https://www.linkedin.com/in/biomedical-science-tau-5b1a47440/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10v6M8 7.5v.1M12 16v-3.2a2.2 2.2 0 0 1 4.4 0V16M12 10v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a><a href="https://www.facebook.com/profile.php?id=61594677136094" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-8h2.7l.4-3H14V8.1c0-.9.3-1.6 1.7-1.6h1.7V3.8c-.3 0-1.4-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V10H8v3h2.7v8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a href="https://x.com/BIOMEDICALv0" target="_blank" rel="noopener noreferrer" aria-label="X" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4l14 16M19 4L5 20M7 4h3l7 16h-3L7 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div></div><div class="container footer-bottom"><span>© The Apollo University · Department of Biomedical Sciences</span><span>Single-page responsive HTML · no external libraries</span></div></footer>
 <script>
 const menuBtn=document.getElementById('menuBtn');const nav=document.getElementById('nav');
 menuBtn?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open?'true':'false')});
@@ -629,4 +624,17 @@ addEventListener('scroll',setActive,{passive:true});setActive();
 
 
 </script>
+
+<script id="bmsResearchHub">
+(function(){
+  const links=document.querySelectorAll('a[href="FACULTY RESEARCH.html"],a[href="STUDENT PROJECTS AND RESEARCH.html"],a[href="STUDENT ARTICLES.html"]');
+  links.forEach(link=>{
+    link.addEventListener('click',function(){
+      this.setAttribute('aria-busy','true');
+      window.setTimeout(()=>this.removeAttribute('aria-busy'),300);
+    });
+  });
+})();
+</script>
+
 </body></html>
