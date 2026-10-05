@@ -241,9 +241,9 @@ footer li{margin:5px 0}
 
 
 .department-photo{margin-top:28px;background:#fff;border:1px solid rgba(6,37,52,.10);border-radius:18px;overflow:hidden;box-shadow:0 12px 35px rgba(6,37,52,.08)}
-.department-photo img{display:block;width:100%;height:auto;max-height:520px;object-fit:cover;object-position:center;border-radius:18px 18px 0 0}
+.department-photo img{display:block;width:100%;height:auto;max-height:none;object-fit:contain;object-position:center;background:#fff;border-radius:18px 18px 0 0}
 .department-photo figcaption{padding:12px 16px;font-size:12px;color:var(--muted);text-align:center;letter-spacing:.02em}
-@media(max-width:700px){.department-photo img{max-height:360px}}
+@media(max-width:700px){.department-photo img{max-height:none}}
 </style>
 </head>
 <body>
@@ -648,3 +648,8 @@ addEventListener('scroll',setActive,{passive:true});setActive();
 document.querySelectorAll('.media-tabs').forEach(group=>group.querySelectorAll('.media-tab').forEach(btn=>btn.addEventListener('click',()=>{group.querySelectorAll('.media-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active')})));
 </script>
 </body></html>
+
+
+
+
+
