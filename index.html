@@ -100,10 +100,16 @@ section{scroll-margin-top:100px}
 .cta-box h2{margin:0 0 9px;font-size:32px;line-height:1.1}
 .cta-box p{margin:0;color:#d8e6eb;max-width:720px}
 footer{background:#062534;color:#c9d9de;padding:42px 0 25px}
-.footer-grid{display:grid;grid-template-columns:1.3fr .7fr .7fr;gap:30px}
+.footer-grid{display:grid;grid-template-columns:1.3fr .8fr .7fr .8fr;gap:30px}
 footer h3{color:#fff;margin:0 0 10px;font-size:15px}
 footer p,footer li{font-size:12px;line-height:1.7}
 footer ul{list-style:none;padding:0;margin:0}
+.social-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.social-links a{width:38px;height:38px;border:1px solid rgba(255,255,255,.18);border-radius:10px;display:inline-flex;align-items:center;justify-content:center;color:#c9d9de;text-decoration:none;transition:transform .2s ease,background .2s ease,color .2s ease,border-color .2s ease}
+.social-links a:hover{transform:translateY(-3px);background:#fff;color:#062534;border-color:#fff}
+.social-links svg{width:19px;height:19px}
+.social-links a:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
 footer li{margin:5px 0}
 .footer-bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:24px;padding-top:18px;font-size:11px;color:#98b0b8;display:flex;justify-content:space-between;gap:20px}
 .reveal{opacity:0;transform:translateY(18px);transition:.6s ease}
@@ -212,6 +218,20 @@ footer li{margin:5px 0}
 .review-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.review-meta span{padding:6px 8px;border-radius:8px;background:#fff;border:1px solid var(--line);color:#6d7b81;font-size:9px;font-weight:800}
 @media(max-width:900px){.research-overview{grid-template-columns:1fr}.student-research-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:580px){.research-panel{grid-template-columns:1fr;padding:21px}.panel-number{width:38px;height:38px}.student-research-grid{grid-template-columns:1fr}.review-placeholder{flex-direction:column}}
+
+
+/* Social media connect section */
+.social-section{background:#f4f8fa;padding:70px 0}
+.social-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:32px}
+.social-card{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:230px;padding:28px 20px;background:#fff;border:1px solid #dce8ec;border-radius:18px;text-decoration:none;color:#062534;box-shadow:0 10px 28px rgba(6,37,52,.07);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.social-card:hover{transform:translateY(-7px);box-shadow:0 18px 38px rgba(6,37,52,.14);border-color:#8bb8c7}
+.social-icon{width:72px;height:72px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;background:#eef5f7}
+.social-icon svg{width:42px;height:42px;fill:none;stroke:currentColor;stroke-width:2}
+.social-card h3{margin:0 0 7px;font-size:18px}
+.social-card p{margin:0;color:#647b84;font-size:12px;line-height:1.6}
+.social-arrow{margin-top:14px;font-size:13px;font-weight:700;color:#17677c}
+@media(max-width:900px){.social-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.social-grid{grid-template-columns:1fr}.social-card{min-height:200px}}
 
 </style>
 </head>
@@ -546,9 +566,61 @@ footer li{margin:5px 0}
   </div>
 </section>
 
+
+
+<section class="section social-section" id="connect">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">Connect With Us</div>
+        <h2>Follow the Department Online</h2>
+      </div>
+      <p>Stay connected with the Department of Biomedical Sciences through our official social-media channels.</p>
+    </div>
+
+    <div class="social-grid">
+      <a class="social-card reveal" href="https://www.instagram.com/biomedical_sciences021/" target="_blank" rel="noopener noreferrer" aria-label="Visit Department of Biomedical Sciences on Instagram">
+        <div class="social-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
+        </div>
+        <h3>Instagram</h3>
+        <p>Photos, activities, events and department updates.</p>
+        <span class="social-arrow">Visit Instagram →</span>
+      </a>
+
+      <a class="social-card reveal" href="https://www.linkedin.com/in/biomedical-science-tau-5b1a47440/" target="_blank" rel="noopener noreferrer" aria-label="Visit Department of Biomedical Sciences on LinkedIn">
+        <div class="social-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M8 10v7M8 7.5v.01M12 17v-4a3 3 0 0 1 6 0v4M12 10v7"></path></svg>
+        </div>
+        <h3>LinkedIn</h3>
+        <p>Academic news, professional updates and opportunities.</p>
+        <span class="social-arrow">Visit LinkedIn →</span>
+      </a>
+
+      <a class="social-card reveal" href="https://www.facebook.com/profile.php?id=61594677136094" target="_blank" rel="noopener noreferrer" aria-label="Visit Department of Biomedical Sciences on Facebook">
+        <div class="social-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M13.5 8.5h-1.2c-1.1 0-1.8.7-1.8 1.9V12H9v2h1.5v4h2v-4h1.7l.3-2h-2v-1.2c0-.4.2-.7.8-.7h1.2z"></path></svg>
+        </div>
+        <h3>Facebook</h3>
+        <p>Department announcements, events and community news.</p>
+        <span class="social-arrow">Visit Facebook →</span>
+      </a>
+
+      <a class="social-card reveal" href="https://x.com/BIOMEDICALv0" target="_blank" rel="noopener noreferrer" aria-label="Visit Department of Biomedical Sciences on X">
+        <div class="social-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 4h4.2l3.1 4.2L15.9 4H19l-5.2 6.1L19.5 20h-4.2l-3.7-5-4.1 5H4.4l5.8-6.8z"></path></svg>
+        </div>
+        <h3>X</h3>
+        <p>Quick updates, announcements and scientific highlights.</p>
+        <span class="social-arrow">Visit X →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section class="cta"><div class="container"><div class="cta-box reveal"><div><h2>Learn · Explore · Research · Innovate · Lead</h2><p>This homepage is structured from the Department's Publication Edition 2022–2026. Explore the faculty profiles above, then continue to Alumni and Research as the department site grows.</p></div><a class="btn secondary" href="#home" style="white-space:nowrap">Back to top ↑</a></div></div></section>
 </main>
-<footer><div class="container footer-grid"><div><h3>Department of Biomedical Sciences</h3><p>School of Health Sciences<br>The Apollo University<br>Chittoor, Andhra Pradesh</p><p>Publication Edition · 2022–2026</p></div><div><h3>On this page</h3><ul><li><a href="#glance">Department at a Glance</a></li><li><a href="#vision">Vision, Mission & Objectives</a></li><li><a href="#programmes">Academic Portfolio</a></li><li><a href="#faculty">Faculty</a></li><li><a href="#alumni">Alumni Photo &amp; Video Library</a></li><li><a href="#success-stories">Alumni Success Stories</a></li><li><a href="#research">Research</a></li></ul></div><div><h3>Theme</h3><ul><li>Learn</li><li>Explore</li><li>Research</li><li>Innovate</li><li>Lead</li></ul></div></div><div class="container footer-bottom"><span>© The Apollo University · Department of Biomedical Sciences</span><span>Single-page responsive HTML · no external libraries</span></div></footer>
+<footer><div class="container footer-grid"><div><h3>Department of Biomedical Sciences</h3><p>School of Health Sciences<br>The Apollo University<br>Chittoor, Andhra Pradesh</p><p>Publication Edition · 2022–2026</p></div><div><h3>On this page</h3><ul><li><a href="#glance">Department at a Glance</a></li><li><a href="#vision">Vision, Mission & Objectives</a></li><li><a href="#programmes">Academic Portfolio</a></li><li><a href="#faculty">Faculty</a></li><li><a href="#alumni">Alumni Photo &amp; Video Library</a></li><li><a href="#success-stories">Alumni Success Stories</a></li><li><a href="#research">Research</a></li><li><a href="#connect">Connect With Us</a></li></ul></div><div><h3>Theme</h3><ul><li>Learn</li><li>Explore</li><li>Research</li><li>Innovate</li><li>Lead</li></ul></div><div><h3>Follow Us</h3><div class="social-links"><a href="https://www.instagram.com/biomedical_sciences021/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor"/></svg></a><a href="https://www.linkedin.com/in/biomedical-science-tau-5b1a47440/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10v6M8 7.5v.1M12 16v-3.2a2.2 2.2 0 0 1 4.4 0V16M12 10v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a><a href="https://www.facebook.com/profile.php?id=61594677136094" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-8h2.7l.4-3H14V8.1c0-.9.3-1.6 1.7-1.6h1.7V3.8c-.3 0-1.4-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V10H8v3h2.7v8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a href="https://x.com/BIOMEDICALv0" target="_blank" rel="noopener noreferrer" aria-label="X" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4l14 16M19 4L5 20M7 4h3l7 16h-3L7 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div></div><div class="container footer-bottom"><span>© The Apollo University · Department of Biomedical Sciences</span><span>Single-page responsive HTML · no external libraries</span></div></footer>
 <script>
 const menuBtn=document.getElementById('menuBtn');const nav=document.getElementById('nav');
 menuBtn?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open?'true':'false')});
