@@ -86,50 +86,70 @@ footer{background:#062534;color:#c9d9de;padding:28px 20px;text-align:center;font
 <footer>© The Apollo University · Department of Biomedical Sciences</footer>
 
 <script>
-const photos = [
-  // Add approved photos here. Example:
-  // {src:"ALUMNI-PHOTOS/photo-01.jpg", title:"Alumni Event 2026", category:"Events"},
-  // {src:"ALUMNI-PHOTOS/photo-02.jpg", title:"Department Gathering", category:"Alumni"}
-];
+const PHOTO_MANIFEST = "../photo-library-images.json";
 
 const gallery = document.getElementById("gallery");
 const empty = document.getElementById("empty");
 const lightbox = document.getElementById("lightbox");
-const lightboxImage = document.getElementById("lightboxImage");
+const lightboxImg = document.getElementById("lightboxImg");
 const lightboxTitle = document.getElementById("lightboxTitle");
-const close = document.getElementById("close");
+
+let photos = [];
 
 function render(){
-  gallery.innerHTML = photos.map((p,i)=>`
-    <article class="photo-card" tabindex="0" role="button" data-index="${i}" aria-label="Open ${escapeHtml(p.title || "photo")}">
-      <div class="photo-frame"><img src="${escapeAttr(p.src)}" alt="${escapeAttr(p.title || "Department photo")}" loading="lazy"></div>
-      <div class="caption"><strong>${escapeHtml(p.title || "Department Photo")}</strong><span>${escapeHtml(p.category || "Department Collection")}</span></div>
-    </article>`).join("");
+  gallery.innerHTML = "";
   empty.style.display = photos.length ? "none" : "block";
-  gallery.querySelectorAll(".photo-card").forEach(card=>{
-    const open=()=>openPhoto(photos[Number(card.dataset.index)]);
-    card.addEventListener("click",open);
-    card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open();}});
+
+  photos.forEach((photo, index) => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const img = document.createElement("img");
+    img.src = photo.src;
+    img.alt = photo.name || `Photo ${index + 1}`;
+    img.loading = "lazy";
+
+    const caption = document.createElement("div");
+    caption.className = "caption";
+    caption.textContent = photo.name || "Photo";
+
+    card.appendChild(img);
+    card.appendChild(caption);
+
+    card.addEventListener("click", () => {
+      lightboxImg.src = photo.src;
+      lightboxImg.alt = photo.name || "Photo";
+      lightboxTitle.textContent = photo.name || "Photo";
+      lightbox.classList.add("show");
+    });
+
+    gallery.appendChild(card);
   });
 }
-function openPhoto(p){
-  if(!p?.src) return;
-  lightboxImage.src=p.src;
-  lightboxImage.alt=p.title || "Department photo";
-  lightboxTitle.textContent=p.title || "Department Photo";
-  lightbox.classList.add("open");
-  close.focus();
+
+async function loadPhotos(){
+  try{
+    const response = await fetch(
+      PHOTO_MANIFEST + "?v=" + Date.now(),
+      { cache: "no-store" }
+    );
+
+    if(!response.ok){
+      throw new Error("photo-library-images.json not found");
+    }
+
+    const data = await response.json();
+    photos = Array.isArray(data) ? data : [];
+    render();
+  }catch(error){
+    console.error(error);
+    photos = [];
+    render();
+    empty.textContent = "Unable to load photo library images.";
+  }
 }
-function closeViewer(){
-  lightbox.classList.remove("open");
-  lightboxImage.removeAttribute("src");
-}
-function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
-function escapeAttr(v){return escapeHtml(v);}
-close.addEventListener("click",closeViewer);
-lightbox.addEventListener("click",e=>{if(e.target===lightbox)closeViewer();});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeViewer();});
-render();
+
+loadPhotos();
 </script>
 </body>
 </html>

@@ -1,0 +1,68 @@
+name: Generate Photo Library JSON
+
+on:
+  push:
+    paths:
+      - "ALL PHOTOS/**"
+      - ".github/workflows/generate-photo-library-json.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate photo-library-images.json
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          folder = Path("ALL PHOTOS")
+          output = Path("photo-library-images.json")
+
+          allowed = {
+              ".jpg", ".jpeg", ".png", ".gif",
+              ".webp", ".bmp", ".svg"
+          }
+
+          photos = []
+
+          for path in sorted(folder.rglob("*")):
+              if path.is_file() and path.suffix.lower() in allowed:
+                  relative = path.relative_to(folder).as_posix()
+
+                  photos.append({
+                      "name": path.name,
+                      "category": path.parent.name,
+                      "src": "../ALL%20PHOTOS/" + relative.replace(" ", "%20")
+                  })
+
+          output.write_text(
+              json.dumps(photos, ensure_ascii=False, indent=2),
+              encoding="utf-8"
+          )
+
+          print(f"Generated {len(photos)} photos")
+          print(f"JSON size: {output.stat().st_size / 1024:.2f} KB")
+          PY
+
+      - name: Commit generated JSON
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add photo-library-images.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Auto-generate Photo Library image JSON"
+            git push
+          fi
