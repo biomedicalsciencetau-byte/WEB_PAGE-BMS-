@@ -1,43 +1,334 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Faculty Achievements | Biomedical Sciences</title><style>
-:root{--primary:#123b5d;--secondary:#0d6b78;--bg:#f2f5f7;--text:#202b33;--muted:#71808a;--border:#dce4e8}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faculty Achievements</title>
+
+<style>
+:root{
+  --navy:#071a2b;
+  --teal:#19b5a5;
+  --cyan:#48d7e5;
+  --bg:#eef3f5;
+  --line:#dce6ea;
+}
+
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
-.header{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;text-align:center;padding:38px 20px}
-.header h1{margin:0 0 8px;font-size:30px}.header p{margin:0;opacity:.9}
-.container{max-width:760px;margin:auto;padding:25px 16px 50px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.back{background:white;border:1px solid var(--border);color:var(--primary);padding:9px 14px;border-radius:8px;text-decoration:none;font-weight:600}
-.post{background:white;border:1px solid var(--border);border-radius:15px;margin-bottom:22px;overflow:hidden;box-shadow:0 4px 16px rgba(18,59,93,.07)}
-.post-head{display:flex;align-items:center;gap:12px;padding:15px 17px}
-.avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e5f1f3;color:var(--secondary);font-size:21px}
-.post-head strong{display:block;color:var(--primary);font-size:15px}.post-head small{color:var(--muted)}
-.photo{height:270px;background:linear-gradient(135deg,#e8eef1,#dbe7eb);display:flex;align-items:center;justify-content:center;color:#687a84;font-size:15px}
-.photo span{border:1px dashed #9eafb7;padding:12px 18px;border-radius:8px;background:rgba(255,255,255,.65)}
-.content{padding:17px 18px 19px}.content h2{margin:0 0 8px;font-size:21px;color:var(--primary)}.content p{margin:0;line-height:1.65;color:#4e5e67}
-.actions{display:flex;gap:18px;border-top:1px solid #edf1f3;padding:12px 18px;color:var(--muted);font-size:14px}
-.note{padding:14px 16px;background:white;border:1px dashed var(--border);border-radius:10px;color:var(--muted);line-height:1.5}
-@media(max-width:600px){.header h1{font-size:25px}.photo{height:220px}}
-</style></head>
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(72,215,229,.08),transparent 28%),
+    linear-gradient(135deg,#f7fafb,#eaf1f3);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+/* HEADER */
+.header{
+  position:relative;
+  overflow:hidden;
+  min-height:190px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+  background:
+    radial-gradient(circle at 15% 20%,rgba(72,215,229,.18),transparent 28%),
+    radial-gradient(circle at 85% 75%,rgba(25,181,165,.20),transparent 30%),
+    linear-gradient(135deg,#061522,#0b2b43 55%,#073d4a);
+}
+
+.header-content{
+  position:relative;
+  z-index:2;
+  padding:35px 20px;
+}
+
+.header h1{
+  margin:0;
+  font-size:clamp(30px,5vw,48px);
+  letter-spacing:-.04em;
+}
+
+.header p{
+  margin:9px 0 0;
+  color:rgba(255,255,255,.75);
+  font-size:14px;
+}
+
+/* MAIN OUTER BOX */
+.gallery-box{
+  width:min(1400px,calc(100% - 34px));
+  margin:35px auto 60px;
+  padding:25px;
+  background:rgba(255,255,255,.94);
+  border:1px solid var(--line);
+  border-radius:26px;
+  box-shadow:
+    0 25px 70px rgba(7,26,43,.13),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+/* INNER BORDER */
+.gallery-inner{
+  padding:18px;
+  border:2px solid #e3ecef;
+  border-radius:20px;
+  background:#f8fafb;
+}
+
+/* PHOTO GRID */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+/* PHOTO BOX */
+.photo-box{
+  position:relative;
+  overflow:hidden;
+  aspect-ratio:4/3;
+  padding:7px;
+  border:1px solid #d6e1e5;
+  border-radius:17px;
+  background:white;
+  box-shadow:0 7px 22px rgba(7,26,43,.09);
+  cursor:pointer;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.photo-box:hover{
+  transform:translateY(-5px);
+  border-color:#b9d5dc;
+  box-shadow:0 18px 38px rgba(7,26,43,.15);
+}
+
+.photo-box img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  border-radius:11px;
+  transition:transform .5s ease;
+}
+
+.photo-box:hover img{
+  transform:scale(1.04);
+}
+
+/* EMPTY IMAGE */
+.placeholder{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  color:#71838c;
+  font-size:13px;
+  text-align:center;
+  background:linear-gradient(135deg,#edf3f5,#e1eaed);
+}
+
+/* FULL SCREEN VIEW */
+.lightbox{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+  background:rgba(2,10,17,.95);
+  backdrop-filter:blur(12px);
+}
+
+.lightbox.open{display:flex}
+
+.lightbox img{
+  max-width:94vw;
+  max-height:92vh;
+  object-fit:contain;
+  border-radius:12px;
+  box-shadow:0 25px 90px rgba(0,0,0,.55);
+}
+
+.close{
+  position:fixed;
+  top:18px;
+  right:22px;
+  width:46px;
+  height:46px;
+  border:0;
+  border-radius:50%;
+  color:white;
+  background:rgba(255,255,255,.13);
+  font-size:28px;
+  cursor:pointer;
+}
+
+.close:hover{
+  background:rgba(255,255,255,.25);
+}
+
+/* RESPONSIVE */
+@media(max-width:950px){
+  .gallery{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:600px){
+  .gallery-box{
+    width:calc(100% - 18px);
+    padding:12px;
+    margin-top:18px;
+    border-radius:18px;
+  }
+
+  .gallery-inner{
+    padding:9px;
+    border-radius:13px;
+  }
+
+  .gallery{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+
+  .photo-box{
+    padding:5px;
+    border-radius:13px;
+  }
+
+  .photo-box img{
+    border-radius:9px;
+  }
+}
+</style>
+</head>
+
 <body>
-<header class="header"><h1>🏆 Faculty Achievements</h1><p>Faculty awards, recognitions, research and professional accomplishments</p></header>
-<main class="container">
-<div class="topbar"><strong>Biomedical Sciences</strong><a class="back" href="index.html">← Back to Main Page</a></div>
 
-<article class="post">
-  <div class="post-head"><div class="avatar">🏆</div><div><strong>Biomedical Sciences</strong><small>Faculty • Achievement</small></div></div>
-  <div class="photo"><span>📷 Add achievement photo</span></div>
-  <div class="content"><h2>Achievement Title</h2><p>Add the verified achievement story here. Include the award, recognition, research accomplishment, competition result, conference participation, or other important achievement details.</p></div>
-  <div class="actions"><span>♡ Like</span><span>💬 Comment</span><span>↗ Share</span></div>
-</article>
+<header class="header">
+  <div class="header-content">
+    <h1>Faculty Achievements</h1>
+    <p>Biomedical Sciences</p>
+  </div>
+</header>
 
-<article class="post">
-  <div class="post-head"><div class="avatar">🏆</div><div><strong>Biomedical Sciences</strong><small>Faculty • Achievement</small></div></div>
-  <div class="photo"><span>📷 Add achievement photo</span></div>
-  <div class="content"><h2>Achievement Title</h2><p>Add the verified achievement details here, along with the date or event information.</p></div>
-  <div class="actions"><span>♡ Like</span><span>💬 Comment</span><span>↗ Share</span></div>
-</article>
+<!-- MAIN BOX CONTAINING ALL PHOTOS -->
+<section class="gallery-box">
+  <div class="gallery-inner">
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
 
-<div class="note"><strong>Ready for your content:</strong> Replace the photo areas and text with the actual faculty achievements. More posts can be added in the same format.</div>
-</main></body></html>
+<!-- IMAGE LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="close" id="closeBtn">×</button>
+  <img id="lightboxImage" src="" alt="">
+</div>
+
+<script>
+
+/*
+============================================================
+PHOTO FOLDER
+============================================================
+Change this path later.
+
+Example:
+const PHOTO_FOLDER = "ALL PHOTOS/FACULTY ACHIEVEMENTS/";
+============================================================
+*/
+const PHOTO_FOLDER = "ALL PHOTOS/FACULTY ACHIEVEMENTS/";
+
+
+/*
+============================================================
+PHOTO FILES
+============================================================
+
+Only add the filenames here.
+
+Example:
+"faculty1.jpg",
+"faculty2.jpg",
+"award1.png"
+============================================================
+*/
+const photos = [
+  // "photo1.jpg",
+  // "photo2.jpg",
+  // "photo3.jpg",
+  // "photo4.jpg",
+  // "photo5.jpg",
+  // "photo6.jpg"
+];
+
+
+const gallery = document.getElementById("gallery");
+const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+const closeBtn = document.getElementById("closeBtn");
+
+
+photos.forEach(filename => {
+
+  const box = document.createElement("div");
+  box.className = "photo-box";
+
+  const img = document.createElement("img");
+  img.src = PHOTO_FOLDER + filename;
+  img.alt = "";
+  img.loading = "lazy";
+
+  const placeholder = document.createElement("div");
+  placeholder.className = "placeholder";
+  placeholder.textContent = "Image not found";
+  placeholder.style.display = "none";
+
+  img.onerror = () => {
+    img.style.display = "none";
+    placeholder.style.display = "grid";
+  };
+
+  box.appendChild(img);
+  box.appendChild(placeholder);
+
+  box.onclick = () => {
+    if(img.style.display !== "none"){
+      lightboxImage.src = img.src;
+      lightbox.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+  };
+
+  gallery.appendChild(box);
+});
+
+
+function closeLightbox(){
+  lightbox.classList.remove("open");
+  lightboxImage.src = "";
+  document.body.style.overflow = "";
+}
+
+closeBtn.onclick = closeLightbox;
+
+lightbox.onclick = e => {
+  if(e.target === lightbox) closeLightbox();
+};
+
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape") closeLightbox();
+});
+
+</script>
+
+</body>
+</html>
