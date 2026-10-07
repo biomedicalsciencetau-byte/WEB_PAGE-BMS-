@@ -243,21 +243,9 @@ Change this path later.
 
 Example:
 const PHOTO_FOLDER = "ALL PHOTOS/FACULTY ACHIEVEMENTS/";
-============================================================
-*/
-const PHOTO_FOLDER = "ALL PHOTOS/FACULTY ACHIEVEMENTS/";
 
-/*
-============================================================
-AUTOMATIC PHOTO LOADING
-============================================================
-The page reads all image files from the Faculty Achievements
-folder in the GitHub repository, so filenames do not need to
-be entered manually.
-============================================================
-*/
-const GITHUB_API =
-  "https://api.github.com/repos/biomedicalsciencetau-byte/WEB_PAGE-BMS-/contents/ALL%20PHOTOS/FACULTY%20ACHIEVEMENTS";
+const REPOSITORY_TREE_API =
+  "https://api.github.com/repos/biomedicalsciencetau-byte/WEB_PAGE-BMS-/git/trees/main?recursive=1";
 
 const gallery = document.getElementById("gallery");
 const lightbox = document.getElementById("lightbox");
@@ -266,22 +254,32 @@ const closeBtn = document.getElementById("closeBtn");
 
 async function loadPhotos() {
   try {
-    const response = await fetch(GITHUB_API);
+    const response = await fetch(REPOSITORY_TREE_API);
 
     if (!response.ok) {
-      throw new Error("Could not access the Faculty Achievements folder.");
+      throw new Error("GitHub repository could not be read.");
     }
 
-    const files = await response.json();
+    const data = await response.json();
 
-    const imageFiles = files.filter(file =>
-      file.type === "file" &&
-      /\\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file.name)
-    );
+    const folder = PHOTO_FOLDER.replace(/\/+$/, "");
+
+    // Take EVERY image file found inside the selected folder,
+    // including files in subfolders.
+    const imageFiles = (data.tree || [])
+      .filter(item =>
+        item.type === "blob" &&
+        item.path.startsWith(folder + "/") &&
+        /\.(jpg|jpeg|png|gif|webp|bmp|avif)$/i.test(item.path)
+      )
+      .sort((a, b) => a.path.localeCompare(b.path, undefined, {
+        numeric: true,
+        sensitivity: "base"
+      }));
 
     if (imageFiles.length === 0) {
       gallery.innerHTML =
-        '<div class="placeholder" style="min-height:200px;">No faculty achievement images found.</div>';
+        '<div class="placeholder" style="min-height:200px;">No images found in FACULTY ACHIEVEMENTS.</div>';
       return;
     }
 
@@ -290,33 +288,44 @@ async function loadPhotos() {
       box.className = "photo-box";
 
       const img = document.createElement("img");
-      img.src = file.download_url;
+      img.src =
+        "https://raw.githubusercontent.com/biomedicalsciencetau-byte/WEB_PAGE-BMS-/main/" +
+        file.path.split("/").map(encodeURIComponent).join("/");
       img.alt = "";
       img.loading = "lazy";
 
+      const placeholder = document.createElement("div");
+      placeholder.className = "placeholder";
+      placeholder.textContent = "Image not found";
+      placeholder.style.display = "none";
+
+      img.onerror = () => {
+        img.style.display = "none";
+        placeholder.style.display = "grid";
+      };
+
       box.appendChild(img);
+      box.appendChild(placeholder);
 
       box.onclick = () => {
-        lightboxImage.src = file.download_url;
-        lightbox.classList.add("open");
-        document.body.style.overflow = "hidden";
+        if (img.style.display !== "none") {
+          lightboxImage.src = img.src;
+          lightbox.classList.add("open");
+          document.body.style.overflow = "hidden";
+        }
       };
 
       gallery.appendChild(box);
     });
 
   } catch (error) {
+    console.error("Faculty Achievements:", error);
     gallery.innerHTML =
       '<div class="placeholder" style="min-height:200px;">Unable to load faculty achievement images.</div>';
-    console.error(error);
   }
 }
 
 loadPhotos();
-
-
-
-
 
 function closeLightbox(){
   lightbox.classList.remove("open");
@@ -338,4 +347,3 @@ document.addEventListener("keydown", e => {
 
 </body>
 </html>
-
