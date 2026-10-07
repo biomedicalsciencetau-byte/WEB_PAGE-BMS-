@@ -242,40 +242,44 @@ PHOTO FOLDER
 Change this path later.
 
 Example:
-const PHOTO_FOLDER = "ALL PHOTOS/FACULTY ACHIEVEMENTS/";
+const PHOTO_FOLDER = "FACULTY ACHIEVEMENTS/";
 
-const REPOSITORY_TREE_API =
-  "https://api.github.com/repos/biomedicalsciencetau-byte/WEB_PAGE-BMS-/git/trees/main?recursive=1";
+const GITHUB_FOLDER_API =
+  "https://api.github.com/repos/biomedicalsciencetau-byte/WEB_PAGE-BMS-/contents/FACULTY%20ACHIEVEMENTS";
 
 const gallery = document.getElementById("gallery");
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const closeBtn = document.getElementById("closeBtn");
 
-async function loadPhotos() {
+
+async function loadFacultyAchievements() {
   try {
-    const response = await fetch(REPOSITORY_TREE_API);
+    const response = await fetch(GITHUB_FOLDER_API, {
+      headers: {
+        "Accept": "application/vnd.github+json"
+      }
+    });
 
     if (!response.ok) {
-      throw new Error("GitHub repository could not be read.");
+      throw new Error("GitHub folder could not be accessed.");
     }
 
-    const data = await response.json();
+    const files = await response.json();
 
-    const folder = PHOTO_FOLDER.replace(/\/+$/, "");
-
-    // Take EVERY image file found inside the selected folder,
-    // including files in subfolders.
-    const imageFiles = (data.tree || [])
-      .filter(item =>
-        item.type === "blob" &&
-        item.path.startsWith(folder + "/") &&
-        /\.(jpg|jpeg|png|gif|webp|bmp|avif)$/i.test(item.path)
+    // Automatically use every image file directly inside
+    // FACULTY ACHIEVEMENTS.
+    const imageFiles = files
+      .filter(file =>
+        file.type === "file" &&
+        /\.(jpg|jpeg|png|gif|webp|bmp|avif|svg)$/i.test(file.name)
       )
-      .sort((a, b) => a.path.localeCompare(b.path, undefined, {
-        numeric: true,
-        sensitivity: "base"
-      }));
+      .sort((a, b) =>
+        a.name.localeCompare(b.name, undefined, {
+          numeric: true,
+          sensitivity: "base"
+        })
+      );
 
     if (imageFiles.length === 0) {
       gallery.innerHTML =
@@ -288,10 +292,8 @@ async function loadPhotos() {
       box.className = "photo-box";
 
       const img = document.createElement("img");
-      img.src =
-        "https://raw.githubusercontent.com/biomedicalsciencetau-byte/WEB_PAGE-BMS-/main/" +
-        file.path.split("/").map(encodeURIComponent).join("/");
-      img.alt = "";
+      img.src = file.download_url;
+      img.alt = file.name;
       img.loading = "lazy";
 
       const placeholder = document.createElement("div");
@@ -325,7 +327,7 @@ async function loadPhotos() {
   }
 }
 
-loadPhotos();
+loadFacultyAchievements();
 
 function closeLightbox(){
   lightbox.classList.remove("open");
