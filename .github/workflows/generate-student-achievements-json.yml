@@ -1,0 +1,76 @@
+name: Generate Student Achievements JSON
+
+on:
+  push:
+    paths:
+      - "STUDENT ACIEVEMENTS/**"
+      - ".github/workflows/generate-student-achievements-json.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate student-achievements.json
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("STUDENT ACIEVEMENTS")
+          output = Path("student-achievements.json")
+
+          extensions = {
+              ".jpg",
+              ".jpeg",
+              ".png",
+              ".webp",
+              ".gif"
+          }
+
+          photos = []
+
+          if root.exists():
+              for path in sorted(root.rglob("*")):
+                  if path.is_file() and path.suffix.lower() in extensions:
+                      relative = path.relative_to(root).as_posix()
+
+                      encoded = "/".join(
+                          part.replace(" ", "%20")
+                          for part in relative.split("/")
+                      )
+
+                      photos.append({
+                          "name": path.name,
+                          "category": path.parent.name,
+                          "src": "../STUDENT%20ACIEVEMENTS/" + encoded
+                      })
+
+          output.write_text(
+              json.dumps(photos, indent=2, ensure_ascii=False) + "\n",
+              encoding="utf-8"
+          )
+
+          print(f"Generated {output} with {len(photos)} images.")
+          PY
+
+      - name: Commit generated JSON
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add student-achievements.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Auto-generate student achievements JSON"
+            git push
+          fi
