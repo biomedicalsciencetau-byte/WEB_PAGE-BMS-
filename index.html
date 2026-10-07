@@ -731,6 +731,18 @@ footer li{margin:5px 0}
 <section class="cta"><div class="container"><div class="cta-box reveal"><div><h2>Learn · Explore · Research · Innovate · Lead</h2><p>This homepage is structured from the Department's Publication Edition 2022–2026. Explore the faculty profiles above, then continue to Alumni and Research as the department site grows.</p></div><a class="btn secondary" href="#home" style="white-space:nowrap">Back to top ↑</a></div></div></section>
 </main>
 <footer><div class="container footer-grid"><div><h3>Department of Biomedical Sciences</h3><p>School of Health Sciences<br>The Apollo University<br>Chittoor, Andhra Pradesh</p><p>Publication Edition · 2022–2026</p></div><div><h3>On this page</h3><ul><li><a href="#glance">Department at a Glance</a></li><li><a href="#vision">Vision, Mission & Objectives</a></li><li><a href="#programmes">Academic Portfolio</a></li><li><a href="#faculty">Faculty</a></li><li><a href="#alumni">Alumni Photo &amp; Video Library</a></li><li><a href="#success-stories">Alumni Success Stories</a></li><li><a href="#research">Research</a></li></ul></div><div><h3>Theme</h3><ul><li>Learn</li><li>Explore</li><li>Research</li><li>Innovate</li><li>Lead</li></ul></div></div><div class="container footer-bottom"><span>© The Apollo University · Department of Biomedical Sciences</span><span>Single-page responsive HTML · no external libraries</span></div></footer>
+<div class="faculty-research-modal" id="facultyResearchModal" aria-hidden="true">
+  <div class="faculty-research-box" role="dialog" aria-modal="true" aria-labelledby="facultyResearchTitle">
+    <button class="modal-close" type="button" aria-label="Close faculty research profile">×</button>
+    <div class="faculty-research-image"><img id="facultyResearchImage" src="" alt=""></div>
+    <div class="faculty-research-content">
+      <span class="modal-role" id="facultyResearchRole"></span>
+      <h2 id="facultyResearchTitle"></h2>
+      <p class="modal-focus" id="facultyResearchFocus"></p>
+      <div id="facultyResearchFull"></div>
+    </div>
+  </div>
+</div>
 <script>
 const menuBtn=document.getElementById('menuBtn');const nav=document.getElementById('nav');
 menuBtn?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open?'true':'false')});
@@ -841,16 +853,4 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFacultyResearch
 document.querySelectorAll('.media-tabs').forEach(group=>group.querySelectorAll('.media-tab').forEach(btn=>btn.addEventListener('click',()=>{group.querySelectorAll('.media-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active')})));
 </script>
 
-<div class="faculty-research-modal" id="facultyResearchModal" aria-hidden="true">
-  <div class="faculty-research-box" role="dialog" aria-modal="true" aria-labelledby="facultyResearchTitle">
-    <button class="modal-close" type="button" aria-label="Close faculty research profile">×</button>
-    <div class="faculty-research-image"><img id="facultyResearchImage" src="" alt=""></div>
-    <div class="faculty-research-content">
-      <span class="modal-role" id="facultyResearchRole"></span>
-      <h2 id="facultyResearchTitle"></h2>
-      <p class="modal-focus" id="facultyResearchFocus"></p>
-      <div id="facultyResearchFull"></div>
-    </div>
-  </div>
-</div>
 </body></html>
