@@ -93,6 +93,95 @@ h1{font-size:clamp(36px,5vw,60px);line-height:1.04;margin:14px 0;color:var(--nav
 footer{background:#062534;color:#c9d9de;padding:34px 0 22px}footer .inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px}footer strong{color:#fff}
 .modal-backdrop{position:fixed;inset:0;background:rgba(6,44,60,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.modal-backdrop.open{display:flex}.modal{background:#fff;border-radius:22px;max-width:680px;width:100%;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.25);max-height:85vh;overflow:auto}.modal h2{margin:0;color:var(--navy)}.close{float:right;border:0;background:#eef6f8;border-radius:9px;width:34px;height:34px;cursor:pointer;font-size:18px;color:var(--navy)}
 @media(max-width:900px){.nav{display:none}.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.topbar .inner{display:none}.header .inner{min-height:70px}.grid,.stats{grid-template-columns:1fr}.hero{padding-top:45px}.section{padding-top:32px}.container{width:min(100% - 28px,1160px)}}
+
+.research-pdf-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  margin-top:4px;
+}
+.research-pdf-card{
+  min-height:190px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(180deg,#fff,#f8fbfc);
+  padding:22px 18px;
+  text-align:left;
+  cursor:pointer;
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+  color:#17313b;
+}
+.research-pdf-card:hover{
+  transform:translateY(-3px);
+  border-color:#2b7a8a;
+  box-shadow:0 10px 26px rgba(23,49,59,.12);
+}
+.pdf-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:52px;
+  height:52px;
+  border-radius:12px;
+  background:#17313b;
+  color:#fff;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.5px;
+  margin-bottom:16px;
+}
+.pdf-title{
+  font-size:16px;
+  line-height:1.45;
+  font-weight:700;
+}
+.pdf-action{
+  margin-top:16px;
+  font-size:13px;
+  font-weight:700;
+  color:#2b7a8a;
+}
+.research-pdf-viewer{
+  margin-top:20px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 8px 25px rgba(23,49,59,.08);
+}
+.research-pdf-viewer-head{
+  min-height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 16px;
+  border-bottom:1px solid var(--line);
+  background:#f8fbfc;
+}
+#closeResearchPdf{
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#fff;
+  padding:8px 12px;
+  cursor:pointer;
+  font-weight:700;
+}
+.research-pdf-viewer iframe{
+  width:100%;
+  height:720px;
+  border:0;
+  display:block;
+  background:#fff;
+}
+@media(max-width:900px){
+  .research-pdf-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+  .research-pdf-grid{grid-template-columns:1fr}
+  .research-pdf-viewer iframe{height:560px}
+}
+
 </style>
 </head>
 <body>
@@ -146,17 +235,52 @@ footer{background:#062534;color:#c9d9de;padding:34px 0 22px}footer .inner{displa
   <h2>Research</h2>
   <div class="theme-file-box">
     <div class="theme-file-preview">
-      <select id="researchPdfSelect" class="research-pdf-select" aria-label="Select research PDF">
-        <option value="../faculty%20research/01_LRAC_Approval_Coronary_Heart_Disease_Web_Risk_Assessment.pdf">01 — LRAC Approval: Coronary Heart Disease Web Risk Assessment</option>
-        <option value="../faculty%20research/02_MRHRU_RAC_X_Approval_Chronic_Kidney_Disease_Machine_Learning.pdf">02 — MRHRU RAC-X Approval: Chronic Kidney Disease Machine Learning</option>
-        <option value="../faculty%20research/03_Examining_Schizophrenia_and_Substance_Use_Disorders.pdf">03 — Examining Schizophrenia and Substance Use Disorders</option>
-        <option value="../faculty%20research/04_Green_Marketing_Practices_and_Consumer_Awareness.pdf">04 — Green Marketing Practices and Consumer Awareness</option>
-        <option value="../faculty%20research/05_Microwave_Assisted_Green_Synthesis_of_Bioactive_Compounds.pdf">05 — Microwave Assisted Green Synthesis of Bioactive Compounds</option>
-        <option value="../faculty%20research/Diabetes_Care_in_India_SWOC_Analysis_With_Indexing_Certificate.pdf">06 — Diabetes Care in India: SWOC Analysis With Indexing Certificate</option>
-      </select>
-      <iframe id="researchThemeFrame"
-        src="../faculty%20research/01_LRAC_Approval_Coronary_Heart_Disease_Web_Risk_Assessment.pdf"
-        title="Faculty Research PDF"></iframe>
+      <div class="research-pdf-grid">
+        <button class="research-pdf-card" data-pdf="../faculty%20research/01_LRAC_Approval_Coronary_Heart_Disease_Web_Risk_Assessment.pdf">
+          <div class="pdf-icon">PDF</div>
+          <div class="pdf-title">01 — LRAC Approval: Coronary Heart Disease Web Risk Assessment</div>
+          <div class="pdf-action">Open PDF →</div>
+        </button>
+
+        <button class="research-pdf-card" data-pdf="../faculty%20research/02_MRHRU_RAC_X_Approval_Chronic_Kidney_Disease_Machine_Learning.pdf">
+          <div class="pdf-icon">PDF</div>
+          <div class="pdf-title">02 — MRHRU RAC-X Approval: Chronic Kidney Disease Machine Learning</div>
+          <div class="pdf-action">Open PDF →</div>
+        </button>
+
+        <button class="research-pdf-card" data-pdf="../faculty%20research/03_Examining_Schizophrenia_and_Substance_Use_Disorders.pdf">
+          <div class="pdf-icon">PDF</div>
+          <div class="pdf-title">03 — Examining Schizophrenia and Substance Use Disorders</div>
+          <div class="pdf-action">Open PDF →</div>
+        </button>
+
+        <button class="research-pdf-card" data-pdf="../faculty%20research/04_Green_Marketing_Practices_and_Consumer_Awareness.pdf">
+          <div class="pdf-icon">PDF</div>
+          <div class="pdf-title">04 — Green Marketing Practices and Consumer Awareness</div>
+          <div class="pdf-action">Open PDF →</div>
+        </button>
+
+        <button class="research-pdf-card" data-pdf="../faculty%20research/05_Microwave_Assisted_Green_Synthesis_of_Bioactive_Compounds.pdf">
+          <div class="pdf-icon">PDF</div>
+          <div class="pdf-title">05 — Microwave Assisted Green Synthesis of Bioactive Compounds</div>
+          <div class="pdf-action">Open PDF →</div>
+        </button>
+
+        <button class="research-pdf-card" data-pdf="../faculty%20research/Diabetes_Care_in_India_SWOC_Analysis_With_Indexing_Certificate.pdf">
+          <div class="pdf-icon">PDF</div>
+          <div class="pdf-title">06 — Diabetes Care in India: SWOC Analysis With Indexing Certificate</div>
+          <div class="pdf-action">Open PDF →</div>
+        </button>
+      </div>
+
+      <div id="researchPdfViewer" class="research-pdf-viewer" hidden>
+        <div class="research-pdf-viewer-head">
+          <strong id="researchPdfViewerTitle">Research PDF</strong>
+          <button id="closeResearchPdf" type="button">✕ Close</button>
+        </div>
+        <iframe id="researchThemeFrame" title="Faculty Research PDF"></iframe>
+      </div>
+
     </div>
     <div class="theme-file-actions">
     </div>
@@ -165,13 +289,27 @@ footer{background:#062534;color:#c9d9de;padding:34px 0 22px}footer .inner{displa
 </div></section>
 <footer><div class="container inner"><span>© The Apollo University · Department of Biomedical Sciences</span><strong>Research · Innovation · Impact</strong></div></footer>
 
+
 <script>
 (function(){
-  const select=document.getElementById("researchPdfSelect");
-  const frame=document.getElementById("researchThemeFrame");
-  if(!select||!frame)return;
-  select.addEventListener("change",function(){
-    frame.src=this.value;
+  const cards = document.querySelectorAll(".research-pdf-card");
+  const viewer = document.getElementById("researchPdfViewer");
+  const frame = document.getElementById("researchThemeFrame");
+  const title = document.getElementById("researchPdfViewerTitle");
+  const closeBtn = document.getElementById("closeResearchPdf");
+
+  cards.forEach(card => {
+    card.addEventListener("click", function(){
+      frame.src = this.dataset.pdf;
+      title.textContent = this.querySelector(".pdf-title").textContent;
+      viewer.hidden = false;
+      viewer.scrollIntoView({behavior:"smooth", block:"start"});
+    });
+  });
+
+  closeBtn.addEventListener("click", function(){
+    frame.src = "";
+    viewer.hidden = true;
   });
 })();
 </script>
