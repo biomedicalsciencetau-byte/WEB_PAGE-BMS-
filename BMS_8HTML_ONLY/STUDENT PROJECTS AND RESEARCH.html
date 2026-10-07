@@ -38,38 +38,93 @@ h1{font-size:clamp(36px,5vw,60px);line-height:1.04;margin:14px 0;color:var(--nav
 footer{background:#062534;color:#c9d9de;padding:34px 0 22px}footer .inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px}footer strong{color:#fff}
 .modal-backdrop{position:fixed;inset:0;background:rgba(6,44,60,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.modal-backdrop.open{display:flex}.modal{background:#fff;border-radius:22px;max-width:680px;width:100%;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.25);max-height:85vh;overflow:auto}.modal h2{margin:0;color:var(--navy)}.close{float:right;border:0;background:#eef6f8;border-radius:9px;width:34px;height:34px;cursor:pointer;font-size:18px;color:var(--navy)}
 @media(max-width:900px){.nav{display:none}.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.topbar .inner{display:none}.header .inner{min-height:70px}.grid,.stats{grid-template-columns:1fr}.hero{padding-top:45px}.section{padding-top:32px}.container{width:min(100% - 28px,1160px)}}
-
-/* Student Research PDF boxes */
-.research-pdf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:20px}
-.research-pdf-box{border:1px solid var(--line);border-radius:18px;background:#fff;padding:20px;box-shadow:0 8px 24px rgba(6,37,52,.06)}
-.research-pdf-box h3{margin:0 0 12px;color:var(--navy);font-size:16px;line-height:1.4}
-.research-pdf-box p{font-size:12px;color:var(--muted);margin:0 0 16px;line-height:1.5}
-.view-pdf{display:inline-block;border:0;border-radius:10px;background:var(--navy);color:#fff;padding:11px 16px;font-size:11px;font-weight:800;cursor:pointer}
-.pdf-viewer{position:fixed;inset:0;background:rgba(4,29,40,.72);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000}
-.pdf-viewer.open{display:flex}
-.pdf-viewer-inner{width:min(1200px,96vw);height:min(90vh,900px);background:#fff;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 90px rgba(0,0,0,.3)}
-.pdf-viewer-head{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--line);font-weight:800;color:var(--navy);font-size:13px}
-.pdf-close{border:0;background:#eef6f8;color:var(--navy);border-radius:9px;width:36px;height:36px;font-size:20px;cursor:pointer}
-.pdf-viewer iframe{width:100%;height:100%;border:0}
-@media(max-width:700px){.research-pdf-grid{grid-template-columns:1fr}}
-
-
-
-/* Student Research PDF viewer */
-.research-pdf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}
-.research-pdf-box{border:1px solid var(--line);border-radius:18px;background:#fff;padding:20px}
-.research-pdf-box h3{margin:0 0 10px;color:var(--navy);font-size:16px;line-height:1.4}
-.research-pdf-box p{margin:0 0 15px;color:var(--muted);font-size:12px}
-.view-pdf{border:0;border-radius:10px;background:var(--navy);color:#fff;padding:11px 17px;font-size:11px;font-weight:800;cursor:pointer}
-.pdf-viewer{position:fixed;inset:0;background:rgba(4,29,40,.72);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000}
-.pdf-viewer.open{display:flex}
-.pdf-viewer-inner{width:min(1200px,96vw);height:min(90vh,900px);background:#fff;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 90px rgba(0,0,0,.3)}
-.pdf-viewer-head{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 15px;border-bottom:1px solid var(--line);font-size:13px;font-weight:800;color:var(--navy)}
-.pdf-close{border:0;background:#eef6f8;color:var(--navy);border-radius:9px;width:36px;height:36px;font-size:20px;cursor:pointer}
-.pdf-viewer iframe{width:100%;height:100%;border:0}
-@media(max-width:700px){.research-pdf-grid{grid-template-columns:1fr}}
-
 </style>
+
+<style>
+.research-pdf-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+  margin-top:20px;
+}
+.research-pdf-box{
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  padding:20px;
+}
+.research-pdf-box h3{
+  margin:0 0 10px;
+  color:var(--navy);
+  font-size:16px;
+  line-height:1.4;
+}
+.research-pdf-box p{
+  margin:0 0 15px;
+  color:var(--muted);
+  font-size:12px;
+}
+.view-pdf{
+  border:0;
+  border-radius:10px;
+  background:var(--navy);
+  color:#fff;
+  padding:11px 17px;
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+}
+.pdf-viewer{
+  position:fixed;
+  inset:0;
+  background:rgba(4,29,40,.72);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:1000;
+}
+.pdf-viewer.open{display:flex}
+.pdf-viewer-inner{
+  width:min(1200px,96vw);
+  height:min(90vh,900px);
+  background:#fff;
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.pdf-viewer-head{
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 15px;
+  border-bottom:1px solid var(--line);
+  font-size:13px;
+  font-weight:800;
+  color:var(--navy);
+}
+.pdf-close{
+  border:0;
+  background:#eef6f8;
+  color:var(--navy);
+  border-radius:9px;
+  width:36px;
+  height:36px;
+  font-size:20px;
+  cursor:pointer;
+}
+.pdf-viewer iframe{
+  width:100%;
+  height:100%;
+  border:0;
+}
+@media(max-width:700px){
+  .research-pdf-grid{grid-template-columns:1fr}
+}
+</style>
+
 </head>
 <body>
 <div class="topbar"><div class="container inner"><div>School of Health Sciences · The Apollo University</div><div class="tagline">Learn • Explore • Research • Innovate • Lead</div></div></div>
@@ -79,90 +134,107 @@ footer{background:#062534;color:#c9d9de;padding:34px 0 22px}footer .inner{displa
 </div></header>
 <section class="hero"><div class="container"><div class="eyebrow">Research · 02</div><h1>Undergraduate and postgraduate research experience</h1><p>A dedicated view of student research placements, internships, Honours by Research experiences and collaborating research institutions.</p><div class="hero-actions"><a class="btn primary" href="index.html#research">← Back to Research</a></div></div></section>
 <section class="section"><div class="container">
-
 <div class="panel">
   <h2>Student Research</h2>
-  <div id="studentGrid" class="research-pdf-grid">
+
+  <div class="research-pdf-grid">
+
     <div class="research-pdf-box">
       <h3>📄 Apollo University International AI Hackathon Award</h3>
       <p>Apollo University International AI Hackathon Award</p>
-      <button class="view-pdf" type="button" data-pdf="../student%20research/Apollo_University_International_AI_Hackathon_Award.pdf">View PDF</button>
+      <button class="view-pdf" data-pdf="../student%20research/Apollo_University_International_AI_Hackathon_Award.pdf">
+        View PDF
+      </button>
     </div>
+
     <div class="research-pdf-box">
       <h3>📄 DOC1</h3>
       <p>Student Research PDF</p>
-      <button class="view-pdf" type="button" data-pdf="../student%20research/DOC1.pdf">View PDF</button>
+      <button class="view-pdf" data-pdf="../student%20research/DOC1.pdf">
+        View PDF
+      </button>
     </div>
+
     <div class="research-pdf-box">
       <h3>📄 DOC2</h3>
       <p>Student Research PDF</p>
-      <button class="view-pdf" type="button" data-pdf="../student%20research/DOC2.pdf">View PDF</button>
+      <button class="view-pdf" data-pdf="../student%20research/DOC2.pdf">
+        View PDF
+      </button>
     </div>
+
     <div class="research-pdf-box">
       <h3>📄 DOC3</h3>
       <p>Student Research PDF</p>
-      <button class="view-pdf" type="button" data-pdf="../student%20research/DOC3.pdf">View PDF</button>
+      <button class="view-pdf" data-pdf="../student%20research/DOC3.pdf">
+        View PDF
+      </button>
     </div>
+
   </div>
 </div>
-
 <div class="panel"><h2>Research pathway</h2><p><strong>Hypothesis formulation → experimental/computational design → data analysis → scientific writing → dissertation / presentation / publication</strong></p></div>
 </div></section>
 <footer><div class="container inner"><span>© The Apollo University · Department of Biomedical Sciences</span><strong>Research · Innovation · Impact</strong></div></footer>
 <script>
-const input = document.getElementById('search');
-const cards = [...document.querySelectorAll('#studentGrid .research-pdf-box')];
-const empty = document.getElementById('empty');
+const input=document.getElementById('search'), cards=[...document.querySelectorAll('#studentGrid .card')], empty=document.getElementById('empty');
+let active='all';
+function apply(){const q=input.value.toLowerCase().trim();let shown=0;cards.forEach(c=>{const text=c.innerText.toLowerCase(),tags=c.dataset.tags||'';const ok=(active==='all'||tags.includes(active))&&(!q||text.includes(q));c.style.display=ok?'':'none';if(ok)shown++});empty.style.display=shown?'none':'block'}
+input.addEventListener('input',apply);
+document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');active=b.dataset.filter;apply()}));
+</script>
 
-function apply(){
-  const q = input.value.toLowerCase().trim();
-  let shown = 0;
-  cards.forEach(card=>{
-    const ok = !q || card.innerText.toLowerCase().includes(q);
-    card.style.display = ok ? '' : 'none';
-    if(ok) shown++;
-  });
-  empty.style.display = shown ? 'none' : 'block';
-}
-input.addEventListener('input', apply);
 
-document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
-  apply();
-}));
+<script>
+const pdfViewer = document.createElement("div");
+pdfViewer.className = "pdf-viewer";
 
-const viewer = document.createElement('div');
-viewer.className = 'pdf-viewer';
-viewer.innerHTML = `
+pdfViewer.innerHTML = `
   <div class="pdf-viewer-inner">
     <div class="pdf-viewer-head">
       <span id="pdfViewerTitle">Student Research</span>
-      <button class="pdf-close" type="button" aria-label="Close">×</button>
+      <button class="pdf-close" type="button">×</button>
     </div>
     <iframe title="Student Research PDF"></iframe>
-  </div>`;
-document.body.appendChild(viewer);
+  </div>
+`;
 
-function openPDF(url,title){
-  document.getElementById('pdfViewerTitle').textContent = title;
-  viewer.querySelector('iframe').src = url;
-  viewer.classList.add('open');
-  document.body.style.overflow='hidden';
+document.body.appendChild(pdfViewer);
+
+function openPDF(url, title){
+  document.getElementById("pdfViewerTitle").textContent = title;
+  pdfViewer.querySelector("iframe").src = url;
+  pdfViewer.classList.add("open");
+  document.body.style.overflow = "hidden";
 }
+
 function closePDF(){
-  viewer.classList.remove('open');
-  viewer.querySelector('iframe').src='about:blank';
-  document.body.style.overflow='';
+  pdfViewer.classList.remove("open");
+  pdfViewer.querySelector("iframe").src = "about:blank";
+  document.body.style.overflow = "";
 }
-document.querySelectorAll('.view-pdf').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    openPDF(btn.dataset.pdf, btn.closest('.research-pdf-box').querySelector('h3').innerText.replace('📄 ',''));
+
+document.querySelectorAll(".view-pdf").forEach(button => {
+  button.addEventListener("click", () => {
+    const title = button.closest(".research-pdf-box")
+      .querySelector("h3")
+      .textContent
+      .replace("📄 ","");
+
+    openPDF(button.dataset.pdf, title);
   });
 });
-viewer.querySelector('.pdf-close').addEventListener('click',closePDF);
-viewer.addEventListener('click',e=>{if(e.target===viewer)closePDF()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closePDF()});
+
+pdfViewer.querySelector(".pdf-close")
+  .addEventListener("click", closePDF);
+
+pdfViewer.addEventListener("click", event => {
+  if(event.target === pdfViewer) closePDF();
+});
+
+document.addEventListener("keydown", event => {
+  if(event.key === "Escape") closePDF();
+});
 </script>
 
 </body></html>
