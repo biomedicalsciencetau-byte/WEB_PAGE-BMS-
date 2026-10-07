@@ -69,6 +69,24 @@ h1{font-size:clamp(36px,5vw,60px);line-height:1.04;margin:14px 0;color:var(--nav
 .theme-file-preview{width:100%;height:620px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
 .theme-file-preview iframe{width:100%;height:100%;border:0;display:block;background:#fff}
 .theme-file-actions{display:flex;justify-content:center;padding:16px 4px 2px}
+.research-pdf-select{
+  width:100%;
+  max-width:900px;
+  margin:0 auto 14px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+  color:#17313b;
+  font-size:15px;
+  font-weight:600;
+  outline:none;
+}
+.research-pdf-select:focus{
+  border-color:#2b7a8a;
+  box-shadow:0 0 0 3px rgba(43,122,138,.12);
+}
+
 @media(max-width:600px){.theme-file-preview{height:500px}.theme-file-actions .btn{width:100%}}
 
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}.stat{padding:20px;border:1px solid var(--line);border-radius:18px;background:#fff}.stat strong{display:block;color:var(--gold);font-size:28px}.stat span{font-size:11px;color:var(--muted);font-weight:700}
@@ -128,7 +146,17 @@ footer{background:#062534;color:#c9d9de;padding:34px 0 22px}footer .inner{displa
   <h2>Research</h2>
   <div class="theme-file-box">
     <div class="theme-file-preview">
-      <iframe id="researchThemeFrame" src="../faculty%20research/" title="Research"></iframe>
+      <select id="researchPdfSelect" class="research-pdf-select" aria-label="Select research PDF">
+        <option value="../faculty%20research/01_LRAC_Approval_Coronary_Heart_Disease_Web_Risk_Assessment.pdf">01 — LRAC Approval: Coronary Heart Disease Web Risk Assessment</option>
+        <option value="../faculty%20research/02_MRHRU_RAC_X_Approval_Chronic_Kidney_Disease_Machine_Learning.pdf">02 — MRHRU RAC-X Approval: Chronic Kidney Disease Machine Learning</option>
+        <option value="../faculty%20research/03_Examining_Schizophrenia_and_Substance_Use_Disorders.pdf">03 — Examining Schizophrenia and Substance Use Disorders</option>
+        <option value="../faculty%20research/04_Green_Marketing_Practices_and_Consumer_Awareness.pdf">04 — Green Marketing Practices and Consumer Awareness</option>
+        <option value="../faculty%20research/05_Microwave_Assisted_Green_Synthesis_of_Bioactive_Compounds.pdf">05 — Microwave Assisted Green Synthesis of Bioactive Compounds</option>
+        <option value="../faculty%20research/Diabetes_Care_in_India_SWOC_Analysis_With_Indexing_Certificate.pdf">06 — Diabetes Care in India: SWOC Analysis With Indexing Certificate</option>
+      </select>
+      <iframe id="researchThemeFrame"
+        src="../faculty%20research/01_LRAC_Approval_Coronary_Heart_Disease_Web_Risk_Assessment.pdf"
+        title="Faculty Research PDF"></iframe>
     </div>
     <div class="theme-file-actions">
     </div>
@@ -136,6 +164,18 @@ footer{background:#062534;color:#c9d9de;padding:34px 0 22px}footer .inner{displa
 </div>
 </div></section>
 <footer><div class="container inner"><span>© The Apollo University · Department of Biomedical Sciences</span><strong>Research · Innovation · Impact</strong></div></footer>
+
+<script>
+(function(){
+  const select=document.getElementById("researchPdfSelect");
+  const frame=document.getElementById("researchThemeFrame");
+  if(!select||!frame)return;
+  select.addEventListener("change",function(){
+    frame.src=this.value;
+  });
+})();
+</script>
+
 <script>
 const input=document.getElementById('search'), rows=[...document.querySelectorAll('#facultyRows tr')], empty=document.getElementById('empty');
 let active='all';
