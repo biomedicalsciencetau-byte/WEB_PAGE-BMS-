@@ -1,0 +1,76 @@
+name: Generate Video Library JSON
+
+on:
+  push:
+    paths:
+      - "ALL VIDEOS/**"
+      - ".github/workflows/generate-video-library-json.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate video-library.json
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("ALL VIDEOS")
+          output = Path("video-library.json")
+
+          extensions = {
+              ".mp4",
+              ".webm",
+              ".mov",
+              ".m4v",
+              ".ogg",
+              ".ogv"
+          }
+
+          videos = []
+
+          if root.exists():
+              for path in sorted(root.rglob("*")):
+                  if path.is_file() and path.suffix.lower() in extensions:
+                      relative = path.relative_to(root).as_posix()
+                      encoded = "/".join(
+                          part.replace(" ", "%20")
+                          for part in relative.split("/")
+                      )
+
+                      videos.append({
+                          "name": path.name,
+                          "category": path.parent.name,
+                          "src": "../ALL%20VIDEOS/" + encoded
+                      })
+
+          output.write_text(
+              json.dumps(videos, indent=2, ensure_ascii=False) + "\n",
+              encoding="utf-8"
+          )
+
+          print(f"Generated {output} with {len(videos)} videos.")
+          PY
+
+      - name: Commit generated JSON
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add video-library.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Auto-generate video library JSON"
+            git push
+          fi
