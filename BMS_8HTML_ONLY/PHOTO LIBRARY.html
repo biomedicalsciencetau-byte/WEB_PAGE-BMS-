@@ -1,35 +1,81 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Photo Library | Department of Biomedical Sciences</title>
-<meta name="description" content="All Photos — Department of Biomedical Sciences, The Apollo University">
+<meta name="description" content="Photo Library — Department of Biomedical Sciences, The Apollo University">
+
 <style>
 :root{
-  --navy:#062c3c;--navy2:#0b3b4f;--gold:#efb91c;--teal:#087d95;
-  --ink:#15212a;--muted:#62717a;--paper:#f6f9fa;--line:#dce8ec;--white:#fff;
+  --navy:#071a2b;
+  --bg:#eef3f5;
+  --line:#dce6ea;
+  --teal:#087d95;
+  --gold:#efb91c;
+  --muted:#62717a;
+  --white:#fff;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper);line-height:1.6}
-a{color:inherit;text-decoration:none}
-.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-.header-inner{width:min(1160px,calc(100% - 40px));margin:auto;min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.brand{display:flex;align-items:center;gap:13px}
-.logo{width:50px;height:50px;border-radius:12px;background:#eef6f8;display:grid;place-items:center;color:var(--teal);font-size:24px}
-.brand small{display:block;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
-.brand strong{display:block;color:var(--navy);font-size:16px}
-.back{border:1px solid #cbdde3;background:#fff;color:var(--navy);padding:10px 15px;border-radius:11px;font-size:13px;font-weight:800}
-.back:hover{background:#eef6f8}
-main{width:min(1160px,calc(100% - 40px));margin:auto;padding:58px 0 80px}
-.hero{text-align:center;margin-bottom:30px}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:850;letter-spacing:.12em;text-transform:uppercase;font-size:11px}
-.eyebrow:before{content:"";width:28px;height:3px;border-radius:99px;background:var(--gold)}
-h1{font-size:clamp(34px,5vw,58px);line-height:1.05;color:var(--navy);letter-spacing:-.04em;margin:13px 0 10px}
-.hero p{max-width:650px;margin:0 auto;color:var(--muted);font-size:15px}
-.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:30px 0 18px}
-.search{flex:1;min-width:220px;max-width:430px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-size:14px;outline:none}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(72,215,229,.08),transparent 28%),
+    linear-gradient(135deg,#f7fafb,#eaf1f3);
+  font-family:Arial,Helvetica,sans-serif;
+  color:#15212a;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header{
+  position:relative;
+  overflow:hidden;
+  min-height:190px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+  background:
+    radial-gradient(circle at 15% 20%,rgba(72,215,229,.18),transparent 28%),
+    radial-gradient(circle at 85% 75%,rgba(25,181,165,.20),transparent 30%),
+    linear-gradient(135deg,#061522,#0b2b43 55%,#073d4a);
+}
+
+.header-content{
+  position:relative;
+  z-index:2;
+  padding:35px 20px;
+}
+
+.header h1{
+  margin:0;
+  font-size:clamp(30px,5vw,48px);
+  letter-spacing:-.04em;
+}
+
+.header p{
+  margin:9px 0 0;
+  color:rgba(255,255,255,.75);
+  font-size:14px;
+}
+
+/* =========================================================
+   MAIN PHOTO CONTAINER
+   ========================================================= */
+
 .gallery-box{
   width:min(1400px,calc(100% - 34px));
   margin:35px auto 60px;
@@ -37,190 +83,525 @@ h1{font-size:clamp(34px,5vw,58px);line-height:1.05;color:var(--navy);letter-spac
   background:rgba(255,255,255,.94);
   border:1px solid var(--line);
   border-radius:26px;
-  box-shadow:0 25px 70px rgba(7,26,43,.13),inset 0 1px 0 rgba(255,255,255,.9);
+  box-shadow:
+    0 25px 70px rgba(7,26,43,.13),
+    inset 0 1px 0 rgba(255,255,255,.9);
 }
+
 .gallery-inner{
   padding:18px;
   border:2px solid #e3ecef;
   border-radius:20px;
   background:#f8fafb;
 }
+
+/* =========================================================
+   PHOTO GRID
+   ========================================================= */
+
 .gallery{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:18px;
 }
-.photo-card{
+
+/* =========================================================
+   PHOTO BOX
+   ========================================================= */
+
+.photo-box{
+  width:100%;
+  height:300px;
   position:relative;
   overflow:hidden;
-  height:300px;
   padding:7px;
   border:1px solid #d6e1e5;
   border-radius:17px;
-  background:white;
+  background:#fff;
   box-shadow:0 7px 22px rgba(7,26,43,.09);
   cursor:pointer;
-  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
 }
-.photo-card:hover{
+
+.photo-box:hover{
   transform:translateY(-5px);
   border-color:#b9d5dc;
   box-shadow:0 18px 38px rgba(7,26,43,.15);
 }
-.photo-card img{
+
+/*
+   IMPORTANT:
+   The image is forced to the exact dimensions of the
+   inner photo area. This makes every displayed image
+   exactly match the same-size box.
+*/
+.photo-box img{
   width:100%;
   height:100%;
   display:block;
-  object-fit:cover;
+  object-fit:fill;
   border-radius:11px;
   transition:transform .5s ease;
 }
-.photo-card:hover img{transform:scale(1.04)}
-.caption{display:none}
-.photo-frame{aspect-ratio:4/3;background:linear-gradient(135deg,#eef7f9,#fdfefe);display:grid;place-items:center;color:var(--teal);font-size:34px}
-.photo-frame img{width:100%;height:100%;object-fit:cover;display:block}
-.caption{padding:12px 13px}
-.caption strong{display:block;color:var(--navy);font-size:13px}
-.caption span{display:block;color:var(--muted);font-size:10px;margin-top:2px}
-.empty{display:none;text-align:center;padding:45px 20px;border:1px dashed #bfd4db;border-radius:17px;background:#fff;color:var(--muted)}
-.lightbox{position:fixed;inset:0;background:rgba(3,25,34,.9);display:none;align-items:center;justify-content:center;padding:25px;z-index:50}
-.lightbox.open{display:flex}
-.lightbox-inner{width:min(1000px,94vw);max-height:90vh;position:relative;text-align:center}
-.lightbox img{max-width:100%;max-height:78vh;margin:auto;border-radius:12px;object-fit:contain;background:#fff}
-.lightbox-title{color:#fff;font-weight:800;margin-top:10px}
-.close{position:absolute;right:-5px;top:-48px;width:42px;height:42px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(0,0,0,.25);color:#fff;font-size:23px;cursor:pointer}
-footer{background:#062534;color:#c9d9de;padding:28px 20px;text-align:center;font-size:11px}
-@media(max-width:950px){
-  .gallery{grid-template-columns:repeat(2,1fr)}
+
+.photo-box:hover img{
+  transform:scale(1.02);
 }
+
+/* =========================================================
+   IMAGE ERROR PLACEHOLDER
+   ========================================================= */
+
+.placeholder{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  color:#71838c;
+  font-size:13px;
+  text-align:center;
+  background:linear-gradient(135deg,#edf3f5,#e1eaed);
+}
+
+/* =========================================================
+   EMPTY MESSAGE
+   ========================================================= */
+
+.empty{
+  display:none;
+  text-align:center;
+  padding:45px 20px;
+  border:1px dashed #bfd4db;
+  border-radius:17px;
+  background:#fff;
+  color:var(--muted);
+}
+
+/* =========================================================
+   FULLSCREEN LIGHTBOX
+   ========================================================= */
+
+.lightbox{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+  background:rgba(2,10,17,.95);
+  backdrop-filter:blur(12px);
+}
+
+.lightbox.open{
+  display:flex;
+}
+
+.lightbox img{
+  max-width:94vw;
+  max-height:92vh;
+  object-fit:contain;
+  border-radius:12px;
+  box-shadow:0 25px 90px rgba(0,0,0,.55);
+  background:#fff;
+}
+
+.close{
+  position:fixed;
+  top:18px;
+  right:22px;
+  width:46px;
+  height:46px;
+  border:0;
+  border-radius:50%;
+  color:#fff;
+  background:rgba(255,255,255,.13);
+  font-size:28px;
+  cursor:pointer;
+}
+
+.close:hover{
+  background:rgba(255,255,255,.25);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer{
+  background:#062534;
+  color:#c9d9de;
+  padding:28px 20px;
+  text-align:center;
+  font-size:11px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:950px){
+
+  .gallery{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
 @media(max-width:600px){
+
   .gallery-box{
     width:calc(100% - 18px);
     padding:12px;
     margin-top:18px;
     border-radius:18px;
   }
+
   .gallery-inner{
     padding:9px;
     border-radius:13px;
   }
+
   .gallery{
     grid-template-columns:1fr;
     gap:12px;
   }
-  .photo-card{
+
+  .photo-box{
+    height:280px;
     padding:5px;
     border-radius:13px;
   }
-  .photo-card img{border-radius:9px}
+
+  .photo-box img{
+    border-radius:9px;
+  }
+
 }
-@media(max-width:700px){main{padding-top:42px}.gallery{grid-template-columns:repeat(2,1fr)}.header-inner{width:min(100% - 24px,1160px)}main{width:min(100% - 24px,1160px)}}
-@media(max-width:460px){.gallery{grid-template-columns:1fr}.brand strong{font-size:13px}.back{padding:9px 11px;font-size:11px}}
+
 </style>
 </head>
+
 <body>
+
 <header class="header">
-  <div class="header-inner">
-    <a class="brand" href="index.html" aria-label="Back to Department homepage">
-      <div class="logo" aria-hidden="true">📷</div>
-      <div>
-        <small>The Apollo University</small>
-        <strong>Department of Biomedical Sciences</strong>
-      </div>
-    </a>
-    <a class="back" href="index.html">← Back to Homepage</a>
+  <div class="header-content">
+    <h1>Photo Library</h1>
+    <p>Department of Biomedical Sciences</p>
   </div>
 </header>
 
 <main>
-  <section class="hero">
-    <h1>Photo Library</h1>
-    <p>All Photos from the Department of Biomedical Sciences. Approved photographs can be added to this gallery as the collection is populated.</p>
-  </section>
 
   <section class="gallery-box">
-  <div class="gallery-inner">
-    <div id="gallery" class="gallery" aria-label="All photos"></div>
-  </div>
-</section>
-  <div id="empty" class="empty">No photos match your search.</div>
+
+    <div class="gallery-inner">
+
+      <div
+        id="gallery"
+        class="gallery"
+        aria-label="Department Photo Library">
+      </div>
+
+      <div id="empty" class="empty">
+        No photos found in the Photo Library.
+      </div>
+
+    </div>
+
+  </section>
+
 </main>
 
-<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-  <div class="lightbox-inner">
-    <button id="close" class="close" type="button" aria-label="Close photo viewer">×</button>
-    <img id="lightboxImage" alt="">
-    <div id="lightboxTitle" class="lightbox-title"></div>
-  </div>
+<!-- =======================================================
+     FULLSCREEN IMAGE VIEWER
+     ======================================================= -->
+
+<div
+  id="lightbox"
+  class="lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Photo viewer">
+
+  <button
+    id="closeBtn"
+    class="close"
+    type="button"
+    aria-label="Close photo viewer">
+    ×
+  </button>
+
+  <img
+    id="lightboxImage"
+    src=""
+    alt="">
 </div>
 
-<footer>© The Apollo University · Department of Biomedical Sciences</footer>
+<footer>
+  © The Apollo University · Department of Biomedical Sciences
+</footer>
 
 <script>
+
+/* =========================================================
+   PHOTO MANIFEST
+   =========================================================
+
+   GitHub Actions automatically generates:
+
+   photo-library-images.json
+
+   The JSON contains the image filenames and paths.
+   No filenames need to be manually added here.
+   ========================================================= */
+
 const PHOTO_MANIFEST = "../photo-library-images.json";
 
 const gallery = document.getElementById("gallery");
 const empty = document.getElementById("empty");
+
 const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightboxImage");
-const lightboxTitle = document.getElementById("lightboxTitle");
+const lightboxImage = document.getElementById("lightboxImage");
+const closeBtn = document.getElementById("closeBtn");
 
 let photos = [];
 
-function render(){
-  gallery.innerHTML = "";
-  empty.style.display = photos.length ? "none" : "block";
 
-  photos.forEach((photo, index) => {
-    const card = document.createElement("article");
-    card.className = "card";
-
-    const img = document.createElement("img");
-    img.src = photo.src;
-    img.alt = photo.name || `Photo ${index + 1}`;
-    img.loading = "lazy";
-
-    const caption = document.createElement("div");
-    caption.className = "caption";
-    caption.textContent = photo.name || "Photo";
-
-    card.appendChild(img);
-    card.appendChild(caption);
-
-    card.addEventListener("click", () => {
-      lightboxImg.src = photo.src;
-      lightboxImg.alt = photo.name || "Photo";
-      lightboxTitle.textContent = photo.name || "Photo";
-      lightbox.classList.add("open");
-    });
-
-    gallery.appendChild(card);
-  });
-}
+/* =========================================================
+   LOAD PHOTO MANIFEST
+   ========================================================= */
 
 async function loadPhotos(){
+
   try{
+
     const response = await fetch(
       PHOTO_MANIFEST + "?v=" + Date.now(),
-      { cache: "no-store" }
+      {
+        cache:"no-store"
+      }
     );
 
     if(!response.ok){
-      throw new Error("photo-library-images.json not found");
+      throw new Error("Photo manifest could not be loaded.");
     }
 
     const data = await response.json();
+
     photos = Array.isArray(data) ? data : [];
-    render();
+
+    renderPhotos();
+
   }catch(error){
-    console.error(error);
-    photos = [];
-    render();
-    empty.textContent = "Unable to load photo library images.";
+
+    console.error("Photo Library:",error);
+
+    gallery.innerHTML = "";
+
+    empty.textContent =
+      "Unable to load the Photo Library.";
+
+    empty.style.display = "block";
+
   }
+
 }
 
+
+/* =========================================================
+   RENDER PHOTOS
+   ========================================================= */
+
+function renderPhotos(){
+
+  gallery.innerHTML = "";
+
+  if(!photos.length){
+
+    empty.textContent =
+      "No photos found in the Photo Library.";
+
+    empty.style.display = "block";
+
+    return;
+  }
+
+  empty.style.display = "none";
+
+  photos.forEach((photo,index)=>{
+
+    const box = document.createElement("article");
+
+    box.className = "photo-box";
+
+    box.tabIndex = 0;
+
+    box.setAttribute(
+      "role",
+      "button"
+    );
+
+    box.setAttribute(
+      "aria-label",
+      "Open photo " + (index + 1)
+    );
+
+
+    const img = document.createElement("img");
+
+    img.src = photo.src;
+
+    img.alt =
+      photo.name ||
+      "Department of Biomedical Sciences photo";
+
+    img.loading = "lazy";
+
+    img.decoding = "async";
+
+
+    const placeholder =
+      document.createElement("div");
+
+    placeholder.className =
+      "placeholder";
+
+    placeholder.textContent =
+      "Image not available";
+
+    placeholder.style.display =
+      "none";
+
+
+    img.onerror = function(){
+
+      img.style.display = "none";
+
+      placeholder.style.display =
+        "grid";
+
+    };
+
+
+    box.appendChild(img);
+
+    box.appendChild(placeholder);
+
+
+    function openPhoto(){
+
+      if(img.style.display === "none"){
+        return;
+      }
+
+      lightboxImage.src = img.src;
+
+      lightboxImage.alt =
+        img.alt;
+
+      lightbox.classList.add("open");
+
+      document.body.style.overflow =
+        "hidden";
+
+    }
+
+
+    box.addEventListener(
+      "click",
+      openPhoto
+    );
+
+
+    box.addEventListener(
+      "keydown",
+      event => {
+
+        if(
+          event.key === "Enter" ||
+          event.key === " "
+        ){
+
+          event.preventDefault();
+
+          openPhoto();
+
+        }
+
+      }
+    );
+
+
+    gallery.appendChild(box);
+
+  });
+
+}
+
+
+/* =========================================================
+   CLOSE LIGHTBOX
+   ========================================================= */
+
+function closeLightbox(){
+
+  lightbox.classList.remove("open");
+
+  lightboxImage.removeAttribute("src");
+
+  lightboxImage.removeAttribute("alt");
+
+  document.body.style.overflow = "";
+
+}
+
+
+closeBtn.addEventListener(
+  "click",
+  closeLightbox
+);
+
+
+lightbox.addEventListener(
+  "click",
+  event => {
+
+    if(event.target === lightbox){
+
+      closeLightbox();
+
+    }
+
+  }
+);
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(event.key === "Escape"){
+
+      closeLightbox();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
 loadPhotos();
+
 </script>
+
 </body>
 </html>
