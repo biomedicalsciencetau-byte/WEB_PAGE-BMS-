@@ -1,0 +1,17 @@
+[
+  {
+    "name": "video_1.mp4",
+    "category": "ALL VIDEOS",
+    "src": "../ALL%20VIDEOS/video_1.mp4"
+  },
+  {
+    "name": "video_2.mp4",
+    "category": "ALL VIDEOS",
+    "src": "../ALL%20VIDEOS/video_2.mp4"
+  },
+  {
+    "name": "video_3.mp4",
+    "category": "ALL VIDEOS",
+    "src": "../ALL%20VIDEOS/video_3.mp4"
+  }
+]
