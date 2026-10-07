@@ -246,6 +246,109 @@ footer strong{color:#fff}
   .section{padding-top:28px}
   .folder{padding:30px 18px}
 }
+
+.research-pdf-section{
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:#fff;
+  padding:30px 24px;
+  box-shadow:0 12px 35px rgba(6,44,60,.07);
+}
+.research-pdf-section h2{
+  margin:0;
+  color:var(--navy);
+  font-size:25px;
+  text-align:center;
+}
+.section-description{
+  margin:8px auto 24px;
+  text-align:center;
+  color:var(--muted);
+  font-size:14px;
+}
+.article-pdf-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+}
+.article-pdf-card{
+  min-height:185px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(180deg,#fff,#f8fbfc);
+  padding:22px 18px;
+  text-align:left;
+  cursor:pointer;
+  color:var(--ink);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.article-pdf-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--teal);
+  box-shadow:0 10px 26px rgba(6,44,60,.12);
+}
+.article-pdf-icon{
+  width:52px;
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:var(--navy);
+  color:#fff;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.5px;
+  margin-bottom:15px;
+}
+.article-pdf-title{
+  font-size:16px;
+  line-height:1.45;
+  font-weight:700;
+}
+.article-pdf-action{
+  margin-top:15px;
+  color:var(--teal);
+  font-size:13px;
+  font-weight:800;
+}
+.article-pdf-viewer{
+  margin-top:22px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 8px 25px rgba(6,44,60,.08);
+}
+.article-pdf-viewer-head{
+  min-height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 16px;
+  background:#f5fafb;
+  border-bottom:1px solid var(--line);
+}
+#closeArticlePdf{
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#fff;
+  padding:8px 12px;
+  cursor:pointer;
+  font-weight:700;
+}
+.article-pdf-viewer iframe{
+  width:100%;
+  height:720px;
+  border:0;
+  display:block;
+}
+@media(max-width:650px){
+  .article-pdf-grid{grid-template-columns:1fr}
+  .article-pdf-viewer iframe{height:560px}
+}
+
 </style>
 </head>
 
@@ -298,15 +401,32 @@ footer strong{color:#fff}
     </section>
     <div id="searchMessage" class="search-message" aria-live="polite"></div>
 
-    <section class="folder" id="reviewFolder" aria-labelledby="folder-title" data-search="review articles student review articles">
-      <div class="folder-icon" aria-hidden="true"></div>
-      <h2 id="folder-title">Review Articles Folder</h2>
-      <p>
-        No review articles have been added yet. Add the approved student
-        review articles here when they are ready.
-      </p>
-      <span class="status">Ready for articles</span>
-    </section>
+    <section class="research-pdf-section" id="reviewFolder" aria-labelledby="folder-title" data-search="student review articles review articles green nanotechnology healthcare nanoparticles">
+  <h2 id="folder-title">Student Review Articles</h2>
+  <p class="section-description">Select an article below to open the complete PDF.</p>
+
+  <div class="article-pdf-grid">
+    <button class="article-pdf-card" data-pdf="../student%20articles/06_Emerging_Trends_and_Applications_of_Green_Nanotechnology_in_Healthcare.pdf">
+      <div class="article-pdf-icon">PDF</div>
+      <div class="article-pdf-title">06 — Emerging Trends and Applications of Green Nanotechnology in Healthcare</div>
+      <div class="article-pdf-action">Open Article →</div>
+    </button>
+
+    <button class="article-pdf-card" data-pdf="../student%20articles/07_Industrial_Applications_of_Green_Synthesized_Nanoparticles.pdf">
+      <div class="article-pdf-icon">PDF</div>
+      <div class="article-pdf-title">07 — Industrial Applications of Green Synthesized Nanoparticles</div>
+      <div class="article-pdf-action">Open Article →</div>
+    </button>
+  </div>
+
+  <div id="articlePdfViewer" class="article-pdf-viewer" hidden>
+    <div class="article-pdf-viewer-head">
+      <strong id="articlePdfViewerTitle">Student Review Article</strong>
+      <button id="closeArticlePdf" type="button">✕ Close</button>
+    </div>
+    <iframe id="articlePdfFrame" title="Student Review Article PDF"></iframe>
+  </div>
+</section>
 
     <section class="info" aria-labelledby="format-title">
       <h3 id="format-title">Article folder</h3>
@@ -332,26 +452,28 @@ footer strong{color:#fff}
   const input = document.getElementById("articleSearch");
   const button = document.getElementById("searchButton");
   const message = document.getElementById("searchMessage");
-  const folder = document.getElementById("reviewFolder");
+  const cards = Array.from(document.querySelectorAll(".article-pdf-card"));
+  const viewer = document.getElementById("articlePdfViewer");
+  const frame = document.getElementById("articlePdfFrame");
+  const viewerTitle = document.getElementById("articlePdfViewerTitle");
+  const closeBtn = document.getElementById("closeArticlePdf");
 
   function searchArticles() {
     const query = input.value.trim().toLowerCase();
+    let found = 0;
+
+    cards.forEach(card => {
+      const match = !query || card.textContent.toLowerCase().includes(query);
+      card.style.display = match ? "" : "none";
+      if (match) found++;
+    });
 
     if (!query) {
       message.style.display = "none";
-      folder.style.display = "";
-      return;
-    }
-
-    const searchableText = folder.dataset.search.toLowerCase();
-    const found = searchableText.includes(query);
-
-    if (found) {
-      folder.style.display = "";
-      message.textContent = "Review Articles folder found.";
+    } else if (found) {
+      message.textContent = found + " article" + (found === 1 ? "" : "s") + " found.";
       message.style.display = "block";
     } else {
-      folder.style.display = "none";
       message.textContent = "No review articles found for “" + input.value.trim() + "”.";
       message.style.display = "block";
     }
@@ -360,18 +482,29 @@ footer strong{color:#fff}
   button.addEventListener("click", searchArticles);
 
   input.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      searchArticles();
-    }
+    if (event.key === "Enter") searchArticles();
   });
 
   input.addEventListener("input", function () {
-    if (!input.value.trim()) {
-      searchArticles();
-    }
+    if (!input.value.trim()) searchArticles();
+  });
+
+  cards.forEach(card => {
+    card.addEventListener("click", function () {
+      frame.src = this.dataset.pdf;
+      viewerTitle.textContent = this.querySelector(".article-pdf-title").textContent;
+      viewer.hidden = false;
+      viewer.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  closeBtn.addEventListener("click", function () {
+    frame.src = "";
+    viewer.hidden = true;
   });
 })();
 </script>
 
 </body>
 </html>
+
