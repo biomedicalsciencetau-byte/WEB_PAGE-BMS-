@@ -223,7 +223,8 @@ body{
 <!-- MAIN BOX CONTAINING ALL PHOTOS -->
 <section class="gallery-box">
   <div class="gallery-inner">
-    <div class="gallery" id="gallery"></div>
+    <div class="status" id="status">Loading...</div>
+<div class="gallery" id="gallery"></div>
   </div>
 </section>
 
@@ -335,5 +336,66 @@ document.addEventListener("keydown", e => {
 
 </script>
 
+<script>
+const PHOTO_MANIFEST = "../faculty-images.json";
+const gallery = document.getElementById("gallery");
+const status = document.getElementById("status");
+
+function showLightbox(src, name) {
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position:fixed;inset:0;background:rgba(0,0,0,.92);
+    display:flex;align-items:center;justify-content:center;
+    z-index:99999;padding:20px;cursor:zoom-out;
+  `;
+  const img = document.createElement("img");
+  img.src = src;
+  img.alt = name || "";
+  img.style.cssText = "max-width:95vw;max-height:92vh;object-fit:contain;border-radius:8px;";
+  overlay.appendChild(img);
+  overlay.onclick = () => overlay.remove();
+  document.body.appendChild(overlay);
+}
+
+async function loadFacultyAchievements() {
+  try {
+    status.textContent = "Loading faculty achievements…";
+    const response = await fetch(PHOTO_MANIFEST + "?v=" + Date.now(), {
+      cache: "no-store"
+    });
+    if (!response.ok) throw new Error("faculty-images.json could not be loaded");
+
+    const photos = await response.json();
+    gallery.innerHTML = "";
+
+    if (!Array.isArray(photos) || photos.length === 0) {
+      status.textContent = "No faculty achievement images found.";
+      return;
+    }
+
+    photos.forEach((photo, index) => {
+      const box = document.createElement("div");
+      box.className = "photo-box";
+
+      const img = document.createElement("img");
+      img.src = photo.data;
+      img.alt = photo.name || `Faculty Achievement ${index + 1}`;
+      img.loading = "lazy";
+
+      box.appendChild(img);
+      box.addEventListener("click", () => showLightbox(img.src, img.alt));
+      gallery.appendChild(box);
+    });
+
+    status.textContent = `${photos.length} faculty achievement image${photos.length === 1 ? "" : "s"}`;
+  } catch (error) {
+    console.error(error);
+    status.textContent =
+      "Unable to load faculty achievement images. Make sure faculty-images.json is in the repository root.";
+  }
+}
+
+loadFacultyAchievements();
+</script>
 </body>
 </html>
