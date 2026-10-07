@@ -237,63 +237,51 @@ body{
 
 /*
 ============================================================
-PHOTO FOLDER
+FACULTY ACHIEVEMENTS PHOTO FOLDER
 ============================================================
-Change this path later.
+Images are stored in the repository folder:
 
-Example:
-const PHOTO_FOLDER = "FACULTY ACHIEVEMENTS/";
+FACULTY ACHIEVEMENTS/
 
-const GITHUB_FOLDER_API =
-  "https://api.github.com/repos/biomedicalsciencetau-byte/WEB_PAGE-BMS-/contents/FACULTY%20ACHIEVEMENTS";
+GitHub Actions generates faculty-images.json automatically
+whenever this repository changes. This page reads that local
+manifest, so no GitHub API call is needed from the browser.
+============================================================
+*/
+
+const PHOTO_FOLDER = "../FACULTY ACHIEVEMENTS/";
+const PHOTO_MANIFEST = "../faculty-images.json";
 
 const gallery = document.getElementById("gallery");
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const closeBtn = document.getElementById("closeBtn");
 
-
 async function loadFacultyAchievements() {
   try {
-    const response = await fetch(GITHUB_FOLDER_API, {
-      headers: {
-        "Accept": "application/vnd.github+json"
-      }
+    const response = await fetch(PHOTO_MANIFEST, {
+      cache: "no-store"
     });
 
     if (!response.ok) {
-      throw new Error("GitHub folder could not be accessed.");
+      throw new Error("faculty-images.json could not be loaded.");
     }
 
     const files = await response.json();
 
-    // Automatically use every image file directly inside
-    // FACULTY ACHIEVEMENTS.
-    const imageFiles = files
-      .filter(file =>
-        file.type === "file" &&
-        /\.(jpg|jpeg|png|gif|webp|bmp|avif|svg)$/i.test(file.name)
-      )
-      .sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, {
-          numeric: true,
-          sensitivity: "base"
-        })
-      );
-
-    if (imageFiles.length === 0) {
+    if (!Array.isArray(files) || files.length === 0) {
       gallery.innerHTML =
-        '<div class="placeholder" style="min-height:200px;">No images found in FACULTY ACHIEVEMENTS.</div>';
+        '<div class="placeholder" style="min-height:200px;">No faculty achievement images found.</div>';
       return;
     }
 
-    imageFiles.forEach(file => {
+    files.forEach(filename => {
       const box = document.createElement("div");
       box.className = "photo-box";
 
       const img = document.createElement("img");
-      img.src = file.download_url;
-      img.alt = file.name;
+      img.src = PHOTO_FOLDER + filename.split("/").map(encodeURIComponent).join("/");
+      img.alt = filename;
       img.loading = "lazy";
 
       const placeholder = document.createElement("div");
