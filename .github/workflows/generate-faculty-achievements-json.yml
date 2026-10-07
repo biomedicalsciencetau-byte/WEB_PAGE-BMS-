@@ -1,0 +1,79 @@
+name: Generate Faculty Achievements JSON
+
+on:
+  push:
+    paths:
+      - 'FACULTY ACHIEVEMENTS/**'
+      - '.github/workflows/generate-faculty-achievements-json.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Convert Faculty Achievement Images to JSON
+        run: |
+          python3 <<'PY'
+          import base64
+          import json
+          import mimetypes
+          from pathlib import Path
+
+          folder = Path("FACULTY ACHIEVEMENTS")
+          output = Path("faculty-images.json")
+
+          allowed = {
+              ".jpg", ".jpeg", ".png",
+              ".webp", ".gif", ".bmp", ".svg"
+          }
+
+          images = []
+
+          for file in sorted(folder.iterdir(), key=lambda x: x.name.lower()):
+              if not file.is_file():
+                  continue
+
+              if file.suffix.lower() not in allowed:
+                  continue
+
+              mime = mimetypes.guess_type(file.name)[0]
+
+              if not mime:
+                  mime = "application/octet-stream"
+
+              encoded = base64.b64encode(file.read_bytes()).decode("ascii")
+
+              images.append({
+                  "name": file.name,
+                  "type": mime,
+                  "data": f"data:{mime};base64,{encoded}"
+              })
+
+          output.write_text(
+              json.dumps(images, ensure_ascii=False),
+              encoding="utf-8"
+          )
+
+          print(f"Generated faculty-images.json with {len(images)} images.")
+          PY
+
+      - name: Commit JSON
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add faculty-images.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to faculty-images.json"
+          else
+            git commit -m "Auto-generate faculty achievement JSON"
+            git push
+          fi
