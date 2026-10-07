@@ -247,69 +247,75 @@ const PHOTO_FOLDER = "ALL PHOTOS/FACULTY ACHIEVEMENTS/";
 */
 const PHOTO_FOLDER = "ALL PHOTOS/FACULTY ACHIEVEMENTS/";
 
-
 /*
 ============================================================
-PHOTO FILES
+AUTOMATIC PHOTO LOADING
 ============================================================
-
-Only add the filenames here.
-
-Example:
-"faculty1.jpg",
-"faculty2.jpg",
-"award1.png"
+The page reads all image files from the Faculty Achievements
+folder in the GitHub repository, so filenames do not need to
+be entered manually.
 ============================================================
 */
-const photos = [
-  // "photo1.jpg",
-  // "photo2.jpg",
-  // "photo3.jpg",
-  // "photo4.jpg",
-  // "photo5.jpg",
-  // "photo6.jpg"
-];
-
+const GITHUB_API =
+  "https://api.github.com/repos/biomedicalsciencetau-byte/WEB_PAGE-BMS-/contents/ALL%20PHOTOS/FACULTY%20ACHIEVEMENTS";
 
 const gallery = document.getElementById("gallery");
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const closeBtn = document.getElementById("closeBtn");
 
+async function loadPhotos() {
+  try {
+    const response = await fetch(GITHUB_API);
 
-photos.forEach(filename => {
-
-  const box = document.createElement("div");
-  box.className = "photo-box";
-
-  const img = document.createElement("img");
-  img.src = PHOTO_FOLDER + filename;
-  img.alt = "";
-  img.loading = "lazy";
-
-  const placeholder = document.createElement("div");
-  placeholder.className = "placeholder";
-  placeholder.textContent = "Image not found";
-  placeholder.style.display = "none";
-
-  img.onerror = () => {
-    img.style.display = "none";
-    placeholder.style.display = "grid";
-  };
-
-  box.appendChild(img);
-  box.appendChild(placeholder);
-
-  box.onclick = () => {
-    if(img.style.display !== "none"){
-      lightboxImage.src = img.src;
-      lightbox.classList.add("open");
-      document.body.style.overflow = "hidden";
+    if (!response.ok) {
+      throw new Error("Could not access the Faculty Achievements folder.");
     }
-  };
 
-  gallery.appendChild(box);
-});
+    const files = await response.json();
+
+    const imageFiles = files.filter(file =>
+      file.type === "file" &&
+      /\\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file.name)
+    );
+
+    if (imageFiles.length === 0) {
+      gallery.innerHTML =
+        '<div class="placeholder" style="min-height:200px;">No faculty achievement images found.</div>';
+      return;
+    }
+
+    imageFiles.forEach(file => {
+      const box = document.createElement("div");
+      box.className = "photo-box";
+
+      const img = document.createElement("img");
+      img.src = file.download_url;
+      img.alt = "";
+      img.loading = "lazy";
+
+      box.appendChild(img);
+
+      box.onclick = () => {
+        lightboxImage.src = file.download_url;
+        lightbox.classList.add("open");
+        document.body.style.overflow = "hidden";
+      };
+
+      gallery.appendChild(box);
+    });
+
+  } catch (error) {
+    gallery.innerHTML =
+      '<div class="placeholder" style="min-height:200px;">Unable to load faculty achievement images.</div>';
+    console.error(error);
+  }
+}
+
+loadPhotos();
+
+
+
 
 
 function closeLightbox(){
@@ -332,3 +338,4 @@ document.addEventListener("keydown", e => {
 
 </body>
 </html>
+
