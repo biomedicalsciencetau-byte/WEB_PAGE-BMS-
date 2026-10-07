@@ -41,7 +41,7 @@ h1{font-size:clamp(42px,5vw,72px);line-height:1.03;margin:15px 0 18px;color:var(
 .btn.primary:hover{transform:translateY(-2px);background:#0a4054}
 .btn.secondary{background:#fff;border:1px solid #cfdfe4;color:var(--navy)}
 .btn.secondary:hover{transform:translateY(-2px);border-color:#a9c5ce}
-.hero-card{position:relative;border-radius:26px;overflow:hidden;box-shadow:0 25px 70px rgba(6,44,60,.18);background:var(--navy)}
+.hero-card{position:relative;border:1.5px solid #d5b23f;border-radius:26px;overflow:hidden;box-shadow:0 25px 70px rgba(6,44,60,.18);background:var(--navy)}
 .hero-card img{aspect-ratio:1.25/1;object-fit:cover}
 .hero-overlay{position:absolute;left:0;right:0;bottom:0;padding:26px;color:white;background:linear-gradient(180deg,transparent 0%,rgba(6,44,60,.88) 74%)}
 .hero-overlay strong{display:block;font-size:22px}
@@ -54,7 +54,7 @@ section{scroll-margin-top:100px}
 .kicker{font-size:12px;font-weight:850;color:var(--gold);letter-spacing:.14em;text-transform:uppercase}
 .section-intro{max-width:760px;color:var(--muted);margin:8px 0 0;font-size:16px}
 .glance-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:28px}
-.faculty-group-panel{margin-top:28px;padding:18px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.faculty-group-panel{margin-top:28px;padding:18px;background:#fff;border:1.5px solid #d5b23f;border-radius:var(--radius);box-shadow:var(--shadow)}
 .faculty-group-panel img{display:block;width:100%;height:auto;max-height:none;object-fit:contain;object-position:center;background:#fff;border-radius:14px}
 
 .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
@@ -86,8 +86,8 @@ section{scroll-margin-top:100px}
 .value b{font-size:14px;color:var(--navy)}
 .value p{font-size:12px;color:var(--muted);margin:5px 0 0;line-height:1.5}
 .portfolio-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.program{position:relative;padding:22px;border:1px solid var(--line);border-radius:18px;background:#fff;min-height:238px;display:flex;flex-direction:column;transition:.25s ease}
-.program:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(6,44,60,.12)}
+.program{position:relative;padding:22px;border:1.5px solid #d5b23f;border-radius:18px;background:#fff;min-height:238px;display:flex;flex-direction:column;transition:.25s ease}
+.program:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(6,44,60,.12);border-color:#c4a52f}
 .program .num{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#eef6f8;color:var(--teal);font-weight:900;font-size:13px}
 .program h3{font-size:19px;line-height:1.2;color:var(--navy);margin:18px 0 8px}
 .program p{font-size:12.5px;color:var(--muted);margin:0}
@@ -267,8 +267,8 @@ footer li{margin:5px 0}
 @media(max-width:700px){.research-view{top:14px;right:14px;font-size:.75rem;padding:6px 9px}.research-panel .panel-content{padding-right:78px}}
 
 .research-contact-section{padding:28px 0 10px}
-.research-contact-box{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 22px;border:1px solid rgba(31,91,72,.14);border-radius:16px;background:rgba(255,255,255,.78);box-shadow:0 8px 24px rgba(20,50,40,.06)}
-.research-contact-main h3{margin:4px 0 6px;font-size:1.25rem}
+.research-contact-box{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 22px;border:1.5px solid #d5b23f;border-radius:16px;background:rgba(255,255,255,.78);box-shadow:0 8px 24px rgba(20,50,40,.06)}
+.contact-card{border:1.5px solid #d5b23f;border-radius:14px;padding:16px;background:#fff;flex:1;min-width:0}.research-contact-main h3{margin:4px 0 6px;font-size:1.25rem}
 .research-contact-main p{margin:0;max-width:620px;color:#5b6863;font-size:.92rem}
 .research-contact-links{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
 .contact-email{font-weight:700;text-decoration:none;color:inherit;padding:8px 12px;border-radius:9px;border:1px solid rgba(31,91,72,.16)}
@@ -282,6 +282,16 @@ footer li{margin:5px 0}
 
     .success-card[href]{text-decoration:none;color:inherit;display:block;cursor:pointer;}
     .success-card[href]:hover{transform:translateY(-4px);}
+
+/* Equal-size Department at a Glance boxes */
+.glance-grid{grid-template-columns:1fr 1fr;align-items:stretch}
+.glance-copy,.glance-side-box{height:100%}
+.glance-side-box{padding:18px;display:flex;flex-direction:column}
+.glance-side-box .stat-grid{padding:0}
+.glance-collaborations{margin-top:42px;padding:18px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.glance-collaborations h3{margin:0 0 12px;font-size:16px;color:var(--navy)}
+.glance-collaborations .network{margin-top:0}
+@media(max-width:820px){.glance-grid{grid-template-columns:1fr}.glance-copy,.glance-side-box{height:auto}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
@@ -296,8 +306,26 @@ footer li{margin:5px 0}
 <section class="hero"><div class="container hero-grid"><div class="reveal"><div class="eyebrow">Section 01 · Department Home</div><h1>Department of<br>Biomedical Sciences</h1><p>School of Health Sciences at The Apollo University, Chittoor. A research-oriented academic environment connecting biotechnology, genetics, molecular biology and health informatics.</p><div class="badges"><span class="badge">Publication Edition · 2022–2026</span><span class="badge">Learn · Explore · Research · Innovate · Lead</span></div><div class="actions"><a class="btn primary" href="#glance">Explore the Department →</a><a class="btn secondary" href="#programmes">View Programmes</a></div></div><div class="hero-card reveal"><img src="web photos/building.jpeg" alt="Dr. Prathap C. Reddy Knowledge Centre, The Apollo University"><div class="hero-overlay"><strong>Dr. Prathap C. Reddy Knowledge Centre</strong><span>Main campus · Chittoor, Andhra Pradesh</span></div></div></div></section>
 
 <section class="section alt" id="glance"><div class="container"><div class="section-head reveal"><div><div class="kicker">Section 02</div><h2>Department at a Glance</h2><p class="section-intro">Establishment, programmes and academic scope — presented from the Department's Publication Edition 2022–2026.</p></div></div><div class="glance-grid">
-<article class="panel glance-copy reveal"><p>The Department of Biomedical Sciences functions within the School of Health Sciences at The Apollo University, Chittoor, Andhra Pradesh. It brings together biotechnology, genetics, molecular biology and health informatics under a single academic roof, with the aim of training students who can work across laboratory science, clinical data and emerging health technologies.</p><p>The Department is led by <strong>Prof. R. Satyanarayana</strong>, Professor and Head, who joined the University in 2019. The faculty team spans cancer biology, structural bioinformatics, nanomaterials, public health and computational genomics.</p><div class="meta-list"><div class="meta"><small>Parent institution</small><strong>The Apollo University, Chittoor, Andhra Pradesh</strong></div><div class="meta"><small>School</small><strong>School of Health Sciences</strong></div><div class="meta"><small>Academic building</small><strong>Dr. Prathap C. Reddy Knowledge Centre</strong></div><div class="meta"><small>Head of Department</small><strong>Prof. R. Satyanarayana · joined 2019</strong></div></div><h3 style="margin:24px 0 10px;font-size:16px;color:var(--navy)">COLLABORATIONS</h3><div class="network"><span>Harvard Medical School / BWH</span><span>Monash University</span><span>IIT Hyderabad · Madras · Tirupati · Ropar</span><span>IISc Bangalore</span><span>IISER Tirupati</span><span>University of Hyderabad</span></div></article>
-<aside class="panel stat-grid reveal"><div class="stat"><b>5</b><span>Academic programmes</span></div><div class="stat"><b>8</b><span>Full-time faculty</span></div><div class="stat"><b>2019</b><span>HOD joined the University</span></div><div class="stat"><b>1st</b><span>Indian university admitted to IMIA, Geneva</span></div><div class="stat"><b>ISO 21001:2018</b><span>Quality benchmark cited by the Department</span></div><div class="stat"><b>Chittoor</b><span>Chittoor–Tirupati academic corridor</span></div></aside>
+<article class="panel glance-copy reveal"><p>The Department of Biomedical Sciences functions within the School of Health Sciences at The Apollo University, Chittoor, Andhra Pradesh. It brings together biotechnology, genetics, molecular biology and health informatics under a single academic roof, with the aim of training students who can work across laboratory science, clinical data and emerging health technologies.</p><p>The Department is led by <strong>Prof. R. Satyanarayana</strong>, Professor and Head, who joined the University in 2019. The faculty team spans cancer biology, structural bioinformatics, nanomaterials, public health and computational genomics.</p><div class="meta-list"><div class="meta"><small>Parent institution</small><strong>The Apollo University, Chittoor, Andhra Pradesh</strong></div><div class="meta"><small>School</small><strong>School of Health Sciences</strong></div><div class="meta"><small>Academic building</small><strong>Dr. Prathap C. Reddy Knowledge Centre</strong></div><div class="meta"><small>Head of Department</small><strong>Prof. R. Satyanarayana · joined 2019</strong></div></div></article>
+<aside class="panel glance-side-box reveal">
+  <div class="stat-grid">
+    <div class="stat"><b>5</b><span>Academic programmes</span></div>
+    <div class="stat"><b>8</b><span>Full-time faculty</span></div>
+    <div class="stat"><b>1st</b><span>Indian university admitted to IMIA, Geneva</span></div>
+    <div class="stat"><b>ISO 21001:2018</b><span>Quality benchmark cited by the Department</span></div>
+  </div>
+  <div class="glance-collaborations">
+    <h3>COLLABORATIONS</h3>
+    <div class="network">
+      <span>Harvard Medical School / BWH</span>
+      <span>Monash University</span>
+      <span>IIT Hyderabad · Madras · Tirupati · Ropar</span>
+      <span>IISc Bangalore</span>
+      <span>IISER Tirupati</span>
+      <span>University of Hyderabad</span>
+    </div>
+  </div>
+</aside>
 </div><div class="faculty-group-panel reveal">
 <img src="web photos/BMS Faculty.jpg.jpeg" alt="Biomedical Sciences faculty group">
 </div>
@@ -543,12 +571,6 @@ footer li{margin:5px 0}
         <p>His work includes an automated karyotyping platform using YOLOv8 and Swin Transformer, along with healthcare AI, medical imaging, and clinical data projects.</p>
       </a>
 
-      <article class="success-card reveal">
-        <span class="success-tag">Alumni</span>
-        <h3>Mr. Sandeep</h3>
-        <p class="role">Biomedical Sciences Alumni</p>
-        <p>Alumni profile to be updated with verified academic and professional details.</p>
-      </article>
     </div>
   </div>
 </section>
