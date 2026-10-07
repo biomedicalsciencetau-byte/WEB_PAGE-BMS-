@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Review Articles | Department of Biomedical Sciences</title>
+<style>
+:root{
+  --navy:#062c3c;
+  --teal:#087d95;
+  --gold:#efb91c;
+  --ink:#17252d;
+  --muted:#65747c;
+  --line:#dfe8eb;
+  --soft:#f4f9fa;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--ink);
+  background:#fff;
+  line-height:1.6;
+}
+a{text-decoration:none;color:inherit}
+.container{width:min(1120px,calc(100% - 32px));margin:0 auto}
+
+.topbar{
+  background:var(--navy);
+  color:#dce9ed;
+  font-size:12px;
+}
+.topbar-inner{
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+.topbar strong{color:var(--gold)}
+
+.header{
+  background:#fff;
+  border-bottom:1px solid var(--line);
+}
+.header-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.brand{
+  color:var(--navy);
+  font-weight:800;
+  font-size:18px;
+}
+.brand small{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.nav{
+  display:flex;
+  gap:8px;
+}
+.nav a{
+  padding:9px 12px;
+  border-radius:8px;
+  color:#41525a;
+  font-size:12px;
+  font-weight:700;
+}
+.nav a:hover{background:var(--soft);color:var(--navy)}
+
+.hero{
+  background:linear-gradient(180deg,#f5fafb 0%,#fff 100%);
+  padding:58px 0 48px;
+}
+.eyebrow{
+  color:var(--teal);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.hero h1{
+  margin:12px 0 10px;
+  color:var(--navy);
+  font-size:clamp(34px,5vw,56px);
+  line-height:1.08;
+  letter-spacing:-.03em;
+}
+.hero p{
+  max-width:780px;
+  margin:0;
+  color:var(--muted);
+  font-size:16px;
+}
+.back{
+  display:inline-block;
+  margin-top:22px;
+  padding:11px 15px;
+  background:var(--navy);
+  color:#fff;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.section{padding:42px 0 70px}
+
+
+.search-area{
+  margin-bottom:18px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.search-box{
+  flex:1;
+  min-width:0;
+  padding:13px 15px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:#fff;
+  color:var(--ink);
+  font:inherit;
+  font-size:13px;
+  outline:none;
+}
+.search-box:focus{
+  border-color:var(--teal);
+  box-shadow:0 0 0 3px rgba(8,125,149,.10);
+}
+.search-button{
+  border:0;
+  border-radius:11px;
+  padding:13px 17px;
+  background:var(--navy);
+  color:#fff;
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+.search-button:hover{background:var(--teal)}
+.search-message{
+  display:none;
+  margin:-5px 0 18px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.folder{
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:#fff;
+  padding:34px 24px;
+  text-align:center;
+  box-shadow:0 12px 35px rgba(6,44,60,.07);
+}
+.folder-icon{
+  width:76px;
+  height:62px;
+  margin:0 auto 18px;
+  position:relative;
+  background:#e9c45a;
+  border-radius:8px 10px 10px 10px;
+}
+.folder-icon:before{
+  content:"";
+  position:absolute;
+  width:34px;
+  height:11px;
+  left:5px;
+  top:-7px;
+  background:#d8ae35;
+  border-radius:6px 6px 0 0;
+}
+.folder h2{
+  margin:0;
+  color:var(--navy);
+  font-size:25px;
+}
+.folder p{
+  max-width:620px;
+  margin:9px auto 0;
+  color:var(--muted);
+  font-size:14px;
+}
+.status{
+  display:inline-block;
+  margin-top:18px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:#eef7f9;
+  color:var(--teal);
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+.info{
+  margin-top:18px;
+  padding:22px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:var(--soft);
+}
+.info h3{
+  margin:0 0 7px;
+  color:var(--navy);
+  font-size:18px;
+}
+.info p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+footer{
+  background:var(--navy);
+  color:#cbd9de;
+  padding:26px 0;
+  font-size:11px;
+}
+.footer-inner{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  flex-wrap:wrap;
+}
+footer strong{color:#fff}
+
+@media(max-width:650px){
+  .topbar-inner{display:none}
+  .header-inner{min-height:64px}
+  .nav{display:none}
+  .hero{padding:42px 0 38px}
+  .section{padding-top:28px}
+  .folder{padding:30px 18px}
+}
+</style>
+</head>
+
+<body>
+<div class="topbar">
+  <div class="container topbar-inner">
+    <span>School of Health Sciences · The Apollo University</span>
+    <strong>Learn · Explore · Research · Innovate · Lead</strong>
+  </div>
+</div>
+
+<header class="header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">
+      The Apollo University
+      <small>Department of Biomedical Sciences</small>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="index.html#research">Research</a>
+      <a href="index.html#faculty">Faculty</a>
+      <a href="index.html#programmes">Academic Portfolio</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Research · 03</div>
+    <h1>Student Review Articles</h1>
+    <p>
+      A dedicated collection for student review articles. The folder is currently
+      empty and is ready for approved articles to be added.
+    </p>
+    <a class="back" href="index.html#research">← Back to Research</a>
+  </div>
+</section>
+
+<main class="section">
+  <div class="container">
+
+    <section class="search-area" aria-label="Search review articles">
+      <input
+        id="articleSearch"
+        class="search-box"
+        type="search"
+        placeholder="Search review articles by title, author, keyword or research area..."
+        aria-label="Search review articles"
+        autocomplete="off">
+      <button id="searchButton" class="search-button" type="button">Search</button>
+    </section>
+    <div id="searchMessage" class="search-message" aria-live="polite"></div>
+
+    <section class="folder" id="reviewFolder" aria-labelledby="folder-title" data-search="review articles student review articles">
+      <div class="folder-icon" aria-hidden="true"></div>
+      <h2 id="folder-title">Review Articles Folder</h2>
+      <p>
+        No review articles have been added yet. Add the approved student
+        review articles here when they are ready.
+      </p>
+      <span class="status">Ready for articles</span>
+    </section>
+
+    <section class="info" aria-labelledby="format-title">
+      <h3 id="format-title">Article folder</h3>
+      <p>
+        When an article is added, it can be displayed with its title, authors,
+        abstract, keywords, research area, supervisor, publication details,
+        references and a link to read the complete article.
+      </p>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <span>© The Apollo University · Department of Biomedical Sciences</span>
+    <strong>Research · Innovation · Impact</strong>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const input = document.getElementById("articleSearch");
+  const button = document.getElementById("searchButton");
+  const message = document.getElementById("searchMessage");
+  const folder = document.getElementById("reviewFolder");
+
+  function searchArticles() {
+    const query = input.value.trim().toLowerCase();
+
+    if (!query) {
+      message.style.display = "none";
+      folder.style.display = "";
+      return;
+    }
+
+    const searchableText = folder.dataset.search.toLowerCase();
+    const found = searchableText.includes(query);
+
+    if (found) {
+      folder.style.display = "";
+      message.textContent = "Review Articles folder found.";
+      message.style.display = "block";
+    } else {
+      folder.style.display = "none";
+      message.textContent = "No review articles found for “" + input.value.trim() + "”.";
+      message.style.display = "block";
+    }
+  }
+
+  button.addEventListener("click", searchArticles);
+
+  input.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      searchArticles();
+    }
+  });
+
+  input.addEventListener("input", function () {
+    if (!input.value.trim()) {
+      searchArticles();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
