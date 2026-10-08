@@ -61,7 +61,7 @@ jobs:
               thumbnail.parent.mkdir(parents=True, exist_ok=True)
 
               subprocess.run([
-                  "magick",
+                  "convert",
                   str(path),
                   "-auto-orient",
                   "-thumbnail", "500x500>",
