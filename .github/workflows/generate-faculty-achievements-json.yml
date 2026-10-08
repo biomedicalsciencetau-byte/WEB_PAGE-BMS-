@@ -53,7 +53,7 @@ jobs:
               thumbnail = thumbnail_folder / file.name
 
               subprocess.run([
-                  "magick",
+                  "convert",
                   str(file),
                   "-auto-orient",
                   "-thumbnail", "500x500>",
