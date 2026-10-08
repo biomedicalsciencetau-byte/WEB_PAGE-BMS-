@@ -18,16 +18,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Convert Faculty Achievement Images to JSON
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
+      - name: Generate Faculty Thumbnails and JSON
         run: |
           python3 <<'PY'
-          import base64
           import json
-          import mimetypes
           from pathlib import Path
+          import subprocess
 
           folder = Path("FACULTY ACHIEVEMENTS")
+          thumbnail_folder = folder / "thumbnails"
           output = Path("faculty-images.json")
+
+          thumbnail_folder.mkdir(exist_ok=True)
 
           allowed = {
               ".jpg", ".jpeg", ".png",
@@ -43,37 +50,43 @@ jobs:
               if file.suffix.lower() not in allowed:
                   continue
 
-              mime = mimetypes.guess_type(file.name)[0]
+              thumbnail = thumbnail_folder / file.name
 
-              if not mime:
-                  mime = "application/octet-stream"
-
-              encoded = base64.b64encode(file.read_bytes()).decode("ascii")
+              subprocess.run([
+                  "magick",
+                  str(file),
+                  "-auto-orient",
+                  "-thumbnail", "500x500>",
+                  "-quality", "82",
+                  str(thumbnail)
+              ], check=True)
 
               images.append({
                   "name": file.name,
-                  "type": mime,
-                  "data": f"data:{mime};base64,{encoded}"
+                  "thumbnail": f"../FACULTY ACHIEVEMENTS/thumbnails/{file.name}",
+                  "original": f"../FACULTY ACHIEVEMENTS/{file.name}"
               })
 
           output.write_text(
-              json.dumps(images, ensure_ascii=False),
+              json.dumps(images, ensure_ascii=False, indent=2),
               encoding="utf-8"
           )
 
-          print(f"Generated faculty-images.json with {len(images)} images.")
+          print(f"Generated {len(images)} faculty thumbnails.")
+          print(f"Generated {output}.")
+
           PY
 
-      - name: Commit JSON
+      - name: Commit JSON and thumbnails
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add faculty-images.json
+          git add faculty-images.json "FACULTY ACHIEVEMENTS/thumbnails/"
 
           if git diff --cached --quiet; then
-            echo "No changes to faculty-images.json"
+            echo "No changes to faculty JSON or thumbnails"
           else
-            git commit -m "Auto-generate faculty achievement JSON"
+            git commit -m "Auto-generate faculty achievement thumbnails and JSON"
             git push
           fi

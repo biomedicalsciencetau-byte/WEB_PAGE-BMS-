@@ -278,12 +278,12 @@ async function loadFacultyAchievements() {
       box.className = "photo-box";
 
       const img = document.createElement("img");
-      img.src = photo.data;
+      img.src = photo.thumbnail;
       img.alt = photo.name || `Faculty Achievement ${index + 1}`;
       img.loading = "lazy";
 
       box.appendChild(img);
-      box.addEventListener("click", () => showLightbox(img.src, img.alt));
+      box.addEventListener("click", () => showLightbox(photo.original, img.alt));
       gallery.appendChild(box);
     });
 

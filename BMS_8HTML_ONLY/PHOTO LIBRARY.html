@@ -454,7 +454,7 @@ function renderPhotos(){
 
     const img = document.createElement("img");
 
-    img.src = photo.src;
+    img.src = photo.thumbnail;
 
     img.alt =
       photo.name ||
@@ -499,7 +499,7 @@ function renderPhotos(){
         return;
       }
 
-      lightboxImage.src = img.src;
+      lightboxImage.src = photo.original;
 
       lightboxImage.alt =
         img.alt;

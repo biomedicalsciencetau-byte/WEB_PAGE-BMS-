@@ -18,14 +18,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate photo-library-images.json
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
+      - name: Generate photo thumbnails and JSON
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
+          import subprocess
+          from urllib.parse import quote
 
           folder = Path("ALL PHOTOS")
+          thumbnail_root = folder / "thumbnails"
           output = Path("photo-library-images.json")
+
+          thumbnail_root.mkdir(exist_ok=True)
 
           allowed = {
               ".jpg", ".jpeg", ".png", ".gif",
@@ -35,14 +45,45 @@ jobs:
           photos = []
 
           for path in sorted(folder.rglob("*")):
-              if path.is_file() and path.suffix.lower() in allowed:
-                  relative = path.relative_to(folder).as_posix()
+              if not path.is_file():
+                  continue
 
-                  photos.append({
-                      "name": path.name,
-                      "category": path.parent.name,
-                      "src": "../ALL%20PHOTOS/" + relative.replace(" ", "%20")
-                  })
+              if path.suffix.lower() not in allowed:
+                  continue
+
+              # Never process images already inside thumbnails/
+              if thumbnail_root in path.parents:
+                  continue
+
+              relative = path.relative_to(folder)
+              thumbnail = thumbnail_root / relative
+
+              thumbnail.parent.mkdir(parents=True, exist_ok=True)
+
+              subprocess.run([
+                  "magick",
+                  str(path),
+                  "-auto-orient",
+                  "-thumbnail", "500x500>",
+                  "-quality", "82",
+                  str(thumbnail)
+              ], check=True)
+
+              original_url = "/".join(
+                  quote(part) for part in relative.parts
+              )
+
+              thumbnail_url = "/".join(
+                  quote(part)
+                  for part in thumbnail.relative_to(folder).parts
+              )
+
+              photos.append({
+                  "name": path.name,
+                  "category": path.parent.name,
+                  "thumbnail": "../ALL%20PHOTOS/" + thumbnail_url,
+                  "original": "../ALL%20PHOTOS/" + original_url
+              })
 
           output.write_text(
               json.dumps(photos, ensure_ascii=False, indent=2),
@@ -53,16 +94,16 @@ jobs:
           print(f"JSON size: {output.stat().st_size / 1024:.2f} KB")
           PY
 
-      - name: Commit generated JSON
+      - name: Commit generated JSON and thumbnails
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add photo-library-images.json
+          git add photo-library-images.json "ALL PHOTOS/thumbnails/"
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Auto-generate Photo Library image JSON"
+            git commit -m "Auto-generate Photo Library thumbnails and JSON"
             git push
           fi

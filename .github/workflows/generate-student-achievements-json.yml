@@ -18,14 +18,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate student-achievements.json
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
+      - name: Generate student thumbnails and JSON
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
+          import subprocess
+          from urllib.parse import quote
 
           root = Path("STUDENT ACIEVEMENTS")
+          thumbnail_root = root / "thumbnails"
           output = Path("student-achievements.json")
+
+          thumbnail_root.mkdir(exist_ok=True)
 
           extensions = {
               ".jpg",
@@ -39,19 +49,44 @@ jobs:
 
           if root.exists():
               for path in sorted(root.rglob("*")):
-                  if path.is_file() and path.suffix.lower() in extensions:
-                      relative = path.relative_to(root).as_posix()
+                  if not path.is_file():
+                      continue
 
-                      encoded = "/".join(
-                          part.replace(" ", "%20")
-                          for part in relative.split("/")
-                      )
+                  if path.suffix.lower() not in extensions:
+                      continue
 
-                      photos.append({
-                          "name": path.name,
-                          "category": path.parent.name,
-                          "src": "../STUDENT%20ACIEVEMENTS/" + encoded
-                      })
+                  # Never process images already inside thumbnails/
+                  if thumbnail_root in path.parents:
+                      continue
+
+                  relative = path.relative_to(root)
+                  thumbnail = thumbnail_root / relative
+
+                  thumbnail.parent.mkdir(parents=True, exist_ok=True)
+
+                  subprocess.run([
+                      "magick",
+                      str(path),
+                      "-auto-orient",
+                      "-thumbnail", "500x500>",
+                      "-quality", "82",
+                      str(thumbnail)
+                  ], check=True)
+
+                  relative_url = "/".join(
+                      quote(part) for part in relative.parts
+                  )
+
+                  thumbnail_relative_url = "/".join(
+                      quote(part) for part in thumbnail.relative_to(root).parts
+                  )
+
+                  photos.append({
+                      "name": path.name,
+                      "category": path.parent.name,
+                      "thumbnail": "../STUDENT%20ACIEVEMENTS/" + thumbnail_relative_url,
+                      "original": "../STUDENT%20ACIEVEMENTS/" + relative_url
+                  })
 
           output.write_text(
               json.dumps(photos, indent=2, ensure_ascii=False) + "\n",
@@ -61,16 +96,16 @@ jobs:
           print(f"Generated {output} with {len(photos)} images.")
           PY
 
-      - name: Commit generated JSON
+      - name: Commit generated JSON and thumbnails
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add student-achievements.json
+          git add student-achievements.json "STUDENT ACIEVEMENTS/thumbnails/"
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Auto-generate student achievements JSON"
+            git commit -m "Auto-generate student achievement thumbnails and JSON"
             git push
           fi
