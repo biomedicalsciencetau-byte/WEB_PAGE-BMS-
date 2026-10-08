@@ -23,9 +23,29 @@ img{max-width:100%;display:block}
 .brand .titles{min-width:0}
 .brand .univ{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.12em;text-transform:uppercase}
 .brand .dept{font-size:17px;font-weight:850;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.nav{display:flex;align-items:center;gap:6px;border-bottom:3px solid var(--teal);padding-bottom:5px}
-.nav a{padding:10px 12px;border-radius:10px;font-size:14px;color:#2d3e47;font-weight:650}
+.nav{position:relative;display:flex;align-items:center;gap:6px;padding-bottom:5px}
+.nav a{position:relative;padding:10px 12px;border-radius:10px;font-size:14px;color:#2d3e47;font-weight:650}
 .nav a:hover,.nav a.active{color:var(--navy);background:#eef6f8}
+.nav a::after{
+  content:"";
+  position:absolute;
+  left:10px;
+  right:10px;
+  bottom:-6px;
+  height:2px;
+  background:#168fc1;
+  border-radius:99px;
+  transform:scaleX(0);
+  opacity:0;
+  transition:transform .28s ease,opacity .28s ease;
+}
+.nav a.active::after{transform:scaleX(1);opacity:1}
+@media (hover:hover) and (pointer:fine){
+  .nav a:hover::after{transform:scaleX(1);opacity:1}
+}
+@media (prefers-reduced-motion:reduce){
+  .nav a::after{transition:none}
+}
 .menu{display:none;border:0;background:transparent;font-size:28px;color:var(--navy);cursor:pointer}
 .hero{background:linear-gradient(180deg,#f7fbfc 0%,#fff 72%)}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:58px;align-items:center;padding:72px 0 68px}
@@ -314,10 +334,48 @@ footer li{margin:5px 0}
 .pdf-detail-section{margin-top:20px;padding-top:17px;border-top:1px solid var(--line)}
 .pdf-detail-section h4{margin:0 0 9px;color:var(--navy);font-size:14px;line-height:1.3;text-transform:uppercase;letter-spacing:.055em}
 .pdf-detail-text{color:#56666f;font-size:12.5px;line-height:1.7;white-space:normal;word-break:normal}
+
+.academic-portfolio-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(4,25,34,.80);backdrop-filter:blur(9px)}
+.academic-portfolio-modal.open{display:flex;animation:frFade .18s ease}
+.academic-portfolio-box{position:relative;width:min(980px,96vw);max-height:92vh;overflow:auto;background:#fff;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.28);display:grid;grid-template-columns:250px 1fr;border:1px solid var(--line)}
+.academic-portfolio-side{padding:34px 26px;background:linear-gradient(145deg,var(--navy),#0d5b68);color:#fff;display:flex;flex-direction:column;justify-content:center;min-height:360px}
+.academic-portfolio-side .portfolio-number{font-size:58px;font-weight:950;line-height:1;color:#fff;opacity:.95;margin-bottom:18px}
+.academic-portfolio-side .portfolio-label{font-size:11px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#d7eef0}
+.academic-portfolio-content{padding:34px 38px 38px}
+.academic-portfolio-content .modal-role{display:inline-flex;padding:6px 10px;border-radius:999px;background:#eef7f9;color:var(--teal);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.academic-portfolio-content .portfolio-department{font-size:12px;font-weight:700;color:var(--teal);margin:0 0 14px;line-height:1.4}
+.academic-portfolio-content h2{margin:0 0 10px;font-size:30px;color:var(--navy);line-height:1.15}
+.academic-portfolio-content .portfolio-focus{margin:0 0 22px;color:var(--teal);font-size:14px;font-weight:800;line-height:1.55}
+.academic-portfolio-detail{border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:14px;line-height:1.75}
+.academic-portfolio-detail strong{color:var(--navy)}
+.portfolio-grid .program{cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
+.portfolio-grid .program:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(6,44,60,.12)}
+@media(max-width:760px){.academic-portfolio-modal{padding:10px}.academic-portfolio-box{grid-template-columns:1fr;max-height:96vh}.academic-portfolio-side{min-height:130px;padding:22px}.academic-portfolio-side .portfolio-number{font-size:40px;margin-bottom:8px}.academic-portfolio-content{padding:24px}.academic-portfolio-content h2{font-size:24px}}
+
 .modal-close{position:absolute;right:15px;top:13px;width:40px;height:40px;border:0;border-radius:50%;background:var(--navy);color:#fff;font-size:23px;line-height:1;cursor:pointer;z-index:5}.modal-close:hover{background:var(--teal)}
 .faculty-card.is-hovered{transform:translateY(-6px) scale(1.01);box-shadow:0 25px 65px rgba(6,44,60,.2);border-color:#c4a52f}
 @media(max-width:760px){.faculty-research-modal{padding:10px}.faculty-research-box{grid-template-columns:1fr;max-height:96vh}.faculty-research-image{padding:18px;border-right:0;border-bottom:1px solid var(--line);position:relative}.faculty-research-image img{max-width:190px}.faculty-research-content{padding:22px}.faculty-research-content h2{font-size:24px}}
 @media(max-width:480px){.faculty-research-content{padding:18px}.faculty-research-image img{max-width:100%}}
+
+
+
+/* One precise blue indicator under the currently active navigation item */
+.site-nav a{position:relative}
+.site-nav a::after{
+  content:"";
+  position:absolute;
+  left:10px;right:10px;bottom:-7px;height:2px;
+  background:#1789b5;border-radius:2px;
+  transform:scaleX(0);opacity:0;
+  transition:transform .25s ease,opacity .25s ease;
+  pointer-events:none;
+}
+.site-nav a.active::after,.site-nav a[aria-current="page"]::after{
+  transform:scaleX(1);opacity:1;
+}
+@media (hover:hover) and (pointer:fine){
+  .site-nav a:hover::after{transform:scaleX(1);opacity:1}
+}
 
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -759,7 +817,26 @@ footer li{margin:5px 0}
       <div id="facultyResearchFull"></div>
     </div>
   </div>
+
 </div>
+
+<div class="academic-portfolio-modal" id="academicPortfolioModal" aria-hidden="true">
+  <div class="academic-portfolio-box" role="dialog" aria-modal="true" aria-labelledby="academicPortfolioTitle">
+    <button class="modal-close" type="button" aria-label="Close academic portfolio">×</button>
+    <div class="academic-portfolio-side">
+      <div class="portfolio-number" id="academicPortfolioNumber">01</div>
+      <div class="portfolio-label">Academic Portfolio</div>
+    </div>
+    <div class="academic-portfolio-content">
+      <span class="modal-role" id="academicPortfolioType"></span>
+      <div class="portfolio-department">Department of Biomedical Sciences, School of Health Sciences</div>
+      <h2 id="academicPortfolioTitle"></h2>
+      <p class="portfolio-focus" id="academicPortfolioFocus"></p>
+      <div class="academic-portfolio-detail" id="academicPortfolioDetail"></div>
+    </div>
+  </div>
+</div>
+
 <script>
 const menuBtn=document.getElementById('menuBtn');const nav=document.getElementById('nav');
 menuBtn?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open?'true':'false')});
@@ -866,8 +943,172 @@ facultyModal?.querySelector('.modal-close')?.addEventListener('click',closeFacul
 facultyModal?.addEventListener('click',e=>{if(e.target===facultyModal)closeFacultyResearch();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFacultyResearch();});
 
+
+// Academic Portfolio popups: hover a programme to preview; click to keep the full programme profile open.
+const academicPortfolioModal=document.getElementById('academicPortfolioModal');
+const academicPortfolioCards=[...document.querySelectorAll('#programmes .portfolio-grid .program')];
+const academicPortfolioData=[
+  {
+    number:"01",
+    title:"B.Sc. Biotechnology",
+    type:"3 and 4 years · UG",
+    focus:"Foundational training in cell biology, biochemistry, microbiology and genetic engineering.",
+    detail:"An undergraduate pathway designed to build strong laboratory and biotechnology foundations, with progression into advanced study, research and biotechnology-related careers."
+  },
+  {
+    number:"02",
+    title:"B.Sc. Genetics & Molecular Biology",
+    type:"3 and 4 years · UG",
+    focus:"Classical and molecular genetics, genomics and bioinformatics oriented toward diagnostic and research careers.",
+    detail:"An undergraduate programme focused on genetics, molecular biology, genomics and bioinformatics, preparing students for diagnostic, research and higher-education pathways."
+  },
+  {
+    number:"03",
+    title:"M.Sc. Biotechnology",
+    type:"2 years · PG",
+    focus:"Research-intensive specialisation with students embedded in active faculty laboratories.",
+    detail:"A postgraduate specialisation that builds advanced biotechnology knowledge through research-oriented learning and engagement with active faculty research environments."
+  },
+  {
+    number:"04",
+    title:"M.Sc. Health Informatics & Analytics",
+    type:"2 years · PG",
+    focus:"Health-data systems and AI methods with structured international exposure and project opportunities.",
+    detail:"A postgraduate pathway combining health-data systems, analytics and AI methods with project-based learning and opportunities for international academic exposure."
+  },
+  {
+    number:"05",
+    title:"PhD (Health Sciences)",
+    type:"Full / Part time · Doctoral",
+    focus:"Full-time and part-time doctoral study across the Department's active biomedical and computational thrust areas.",
+    detail:"A doctoral research pathway supporting advanced investigation across the Department's biomedical and computational research areas, with full-time and part-time study options."
+  }
+];
+
+function openAcademicPortfolio(index){
+  const d=academicPortfolioData[index];
+  if(!d||!academicPortfolioModal)return;
+  document.getElementById('academicPortfolioNumber').textContent=d.number;
+  document.getElementById('academicPortfolioType').textContent=d.type;
+  document.getElementById('academicPortfolioTitle').textContent=d.title;
+  document.getElementById('academicPortfolioFocus').textContent=d.focus;
+  document.getElementById('academicPortfolioDetail').innerHTML='<strong>Programme overview</strong><br>'+d.detail;
+  academicPortfolioModal.classList.add('open');
+  academicPortfolioModal.setAttribute('aria-hidden','false');
+}
+function closeAcademicPortfolio(){
+  if(!academicPortfolioModal)return;
+  academicPortfolioModal.classList.remove('open');
+  academicPortfolioModal.setAttribute('aria-hidden','true');
+}
+let academicPortfolioHoverTimer;
+academicPortfolioCards.forEach((card,index)=>{
+  card.addEventListener('mouseenter',()=>{
+    clearTimeout(academicPortfolioHoverTimer);
+    academicPortfolioHoverTimer=setTimeout(()=>openAcademicPortfolio(index),600);
+  });
+  card.addEventListener('mouseleave',()=>clearTimeout(academicPortfolioHoverTimer));
+  card.addEventListener('click',()=>openAcademicPortfolio(index));
+});
+academicPortfolioModal?.querySelector('.modal-close')?.addEventListener('click',closeAcademicPortfolio);
+academicPortfolioModal?.addEventListener('click',e=>{if(e.target===academicPortfolioModal)closeAcademicPortfolio();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAcademicPortfolio();});
+
 // Alumni media tabs (visual filter state)
 document.querySelectorAll('.media-tabs').forEach(group=>group.querySelectorAll('.media-tab').forEach(btn=>btn.addEventListener('click',()=>{group.querySelectorAll('.media-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active')})));
+</script>
+
+
+<script>
+(function(){
+  const navLinks = [...document.querySelectorAll('.site-nav a[href^="#"]')];
+  if (!navLinks.length) return;
+
+  const sections = navLinks
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+
+  function setActive(){
+    const marker = window.scrollY + 130;
+    let current = sections[0];
+    for (const section of sections){
+      if (section.offsetTop <= marker) current = section;
+    }
+    navLinks.forEach(a => {
+      const active = a.getAttribute('href') === '#' + current.id;
+      a.classList.toggle('active', active);
+      if (active) a.setAttribute('aria-current','page');
+      else a.removeAttribute('aria-current');
+    });
+  }
+
+  let ticking = false;
+  function onScroll(){
+    if (!ticking){
+      window.requestAnimationFrame(() => {
+        setActive();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', setActive);
+  navLinks.forEach(a => a.addEventListener('click', () => {
+    setTimeout(setActive, 80);
+  }));
+  setActive();
+})();
+</script>
+
+
+
+
+<script>
+(function(){
+  const navLinks=[...document.querySelectorAll('.nav a[href^="#"]')];
+  const items=navLinks.map(link=>({
+    link,
+    section:document.querySelector(link.getAttribute('href'))
+  })).filter(x=>x.section);
+
+  if(!items.length)return;
+
+  function updateActiveNav(){
+    /* The section nearest the top of the visible page becomes active. */
+    const marker=window.scrollY+150;
+    let current=items[0];
+
+    for(const item of items){
+      if(item.section.offsetTop<=marker) current=item;
+    }
+
+    items.forEach(item=>{
+      const active=item===current;
+      item.link.classList.toggle('active',active);
+      if(active)item.link.setAttribute('aria-current','page');
+      else item.link.removeAttribute('aria-current');
+    });
+  }
+
+  let ticking=false;
+  window.addEventListener('scroll',()=>{
+    if(ticking)return;
+    ticking=true;
+    requestAnimationFrame(()=>{
+      updateActiveNav();
+      ticking=false;
+    });
+  },{passive:true});
+
+  window.addEventListener('resize',updateActiveNav);
+  navLinks.forEach(link=>link.addEventListener('click',()=>{
+    setTimeout(updateActiveNav,120);
+  }));
+
+  updateActiveNav();
+})();
 </script>
 
 </body></html>
