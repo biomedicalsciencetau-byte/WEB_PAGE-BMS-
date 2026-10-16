@@ -228,9 +228,77 @@ body{
   }
 }
 </style>
+<style id="biomedical-floating-objects-style">
+/* Ambient biomedical objects: decorative, non-interactive, and lightweight */
+.bio-float-field{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;contain:strict;opacity:.56}
+.bio-float{position:absolute;display:grid;place-items:center;width:clamp(28px,3.4vw,52px);height:clamp(28px,3.4vw,52px);font-size:clamp(24px,2.8vw,42px);line-height:1;filter:drop-shadow(0 5px 8px rgba(27,89,83,.13));opacity:var(--o,.58);animation:bioDrift var(--dur,17s) ease-in-out infinite alternate;animation-delay:var(--delay,0s);transform:translate3d(0,0,0)}
+.bio-float svg{width:100%;height:100%;overflow:visible}
+@keyframes bioDrift{0%{transform:translate3d(0,0,0) rotate(-8deg)}50%{transform:translate3d(var(--dx,12px),-22px,0) rotate(8deg)}100%{transform:translate3d(calc(var(--dx,12px) * -1),12px,0) rotate(-5deg)}}
+html[data-theme="dark"] .bio-float-field{opacity:.34}
+@media(prefers-reduced-motion:reduce){.bio-float{animation:none!important}}
+@media(max-width:700px){.bio-float-field{opacity:.36}.bio-float{width:27px;height:27px;font-size:25px}}
+</style>
+<style id="biomedical-floating-motion-upgrade">
+/* V9: visibly moving ambient scientific objects */
+.bio-float-field{z-index:2;opacity:.72;isolation:isolate}
+.bio-float{width:clamp(34px,4.2vw,64px);height:clamp(34px,4.2vw,64px);font-size:clamp(29px,3.5vw,49px);will-change:transform;animation:bioTravel var(--dur,14s) ease-in-out infinite;animation-delay:var(--delay,0s);filter:drop-shadow(0 7px 12px rgba(27,89,83,.22))}
+@keyframes bioTravel{0%{transform:translate3d(0,0,0) rotate(-12deg) scale(.92)}20%{transform:translate3d(calc(var(--dx,70px)*.55),-42px,0) rotate(8deg) scale(1.06)}45%{transform:translate3d(var(--dx,70px),18px,0) rotate(18deg) scale(1)}70%{transform:translate3d(calc(var(--dx,70px)*-.55),-54px,0) rotate(-8deg) scale(1.08)}100%{transform:translate3d(0,0,0) rotate(-12deg) scale(.92)}}
+.bio-float:nth-child(3n){animation-name:bioOrbit;animation-duration:var(--dur,18s)}
+@keyframes bioOrbit{0%{transform:translate3d(0,0,0) rotate(0) scale(.9)}25%{transform:translate3d(48px,-30px,0) rotate(90deg) scale(1.08)}50%{transform:translate3d(18px,45px,0) rotate(180deg) scale(1)}75%{transform:translate3d(-38px,15px,0) rotate(270deg) scale(.94)}100%{transform:translate3d(0,0,0) rotate(360deg) scale(.9)}}
+.bio-float:nth-child(4n){animation-name:bioRise;animation-duration:var(--dur,16s)}
+@keyframes bioRise{0%{transform:translate3d(0,35px,0) rotate(-14deg)}50%{transform:translate3d(30px,-65px,0) rotate(14deg)}100%{transform:translate3d(-22px,25px,0) rotate(-10deg)}}
+html[data-theme="dark"] .bio-float-field{opacity:.58}
+@media(max-width:700px){.bio-float-field{opacity:.43}.bio-float{width:30px;height:30px;font-size:27px}}
+@media(prefers-reduced-motion:reduce){.bio-float{animation:none!important;will-change:auto}}
+</style>
+<style id="biomedical-floating-free-space-fix">
+/* V10: keep animated biomedical objects behind the page content, visible only in open/background space */
+.bio-float-field{z-index:0!important;opacity:.42!important;pointer-events:none!important;mix-blend-mode:multiply}
+.bio-float{z-index:0!important;filter:drop-shadow(0 3px 6px rgba(27,89,83,.12))!important}
+/* Ensure normal content paints above the ambient floating layer */
+body>.reading-progress,body>.topbar,body>header,body>nav,body>main,body>section,body>footer,body>.modal,body>.search-overlay,body>.container{position:relative;z-index:1}
+html[data-theme="dark"] .bio-float-field{opacity:.22!important;mix-blend-mode:screen}
+@media(max-width:700px){.bio-float-field{opacity:.24!important}.bio-float{font-size:24px!important}}
+@media(prefers-reduced-motion:reduce){.bio-float{animation:none!important}}
+</style>
+<style id="biomedical-floating-efficiency-v11">
+/* V11: lighter, smoother ambient motion; keep objects subtle and out of the way */
+.bio-float-field{opacity:.30!important;contain:strict;isolation:isolate}
+.bio-float{width:clamp(26px,3vw,44px)!important;height:clamp(26px,3vw,44px)!important;font-size:clamp(23px,2.6vw,36px)!important;filter:drop-shadow(0 2px 4px rgba(27,89,83,.10))!important;will-change:transform;backface-visibility:hidden}
+html[data-theme="dark"] .bio-float-field{opacity:.20!important}
+@media(max-width:700px){.bio-float-field{opacity:.18!important}.bio-float{width:24px!important;height:24px!important;font-size:22px!important}}
+@media(prefers-reduced-motion:reduce){.bio-float-field{display:none!important}.bio-float{animation:none!important;will-change:auto!important}}
+</style>
+<style id="biomedical-floating-brightness-v12">
+/* V12: slightly brighter ambient biomedical objects while preserving readable content */
+.bio-float-field{opacity:.43!important}
+.bio-float{filter:drop-shadow(0 3px 7px rgba(28,116,106,.20))!important}
+html[data-theme="dark"] .bio-float-field{opacity:.30!important}
+@media(max-width:700px){.bio-float-field{opacity:.27!important}}
+@media(prefers-reduced-motion:reduce){.bio-float-field{display:none!important}}
+</style>
+<style id="apollo-v13-unified-theme">
+:root{--navy:#062c3c;--navy2:#0b3b4f;--gold:#efb91c;--teal:#087d95;--ink:#15212a;--muted:#62717a;--paper:#f1f8fa;--line:#d8e7eb;--white:#fff;--shadow:0 18px 50px rgba(6,44,60,.12);--radius:18px}
+html{scroll-behavior:smooth} body{background:#f4f9fb!important;color:#15212a!important}
+header,nav,.topbar,.navbar,.site-header,.main-header,.header,.hero,.page-header,.banner,.title-bar,.section-header{background:linear-gradient(120deg,#062c3c,#0b5368)!important;color:#fff!important}
+header a,nav a,.topbar a,.navbar a,.site-header a,.main-header a,.header a,.hero a,.page-header a,.banner a{color:#fff!important}
+button,.btn,.button,input[type=submit],.submit-btn,.filter-btn.active,.tab.active{background:#087d95!important;color:#fff!important;border-color:#087d95!important}
+button:hover,.btn:hover,.button:hover,input[type=submit]:hover{background:#06586b!important}
+.card,.panel,.tile,.content-card,.faculty-card,.research-card,.gallery-card,.achievement-card,.project-card,.article-card,.video-card,.photo-card,.stat-card,.box,.modal-content{border-color:#d8e7eb!important;box-shadow:0 10px 28px rgba(6,44,60,.09)!important}
+.card,.panel,.tile,.content-card,.faculty-card,.research-card,.gallery-card,.achievement-card,.project-card,.article-card,.video-card,.photo-card,.stat-card{background:rgba(255,255,255,.96)!important}
+h1,h2,h3,h4,.section-title,.page-title{color:#062c3c}
+a{transition:color .2s ease} a:hover{color:#087d95}
+input,select,textarea{border-color:#c7dce2!important} input:focus,select:focus,textarea:focus{outline:2px solid rgba(8,125,149,.25)!important;border-color:#087d95!important}
+footer,.footer,.site-footer{background:#062c3c!important;color:#f3f8fa!important} footer a,.footer a,.site-footer a{color:#f3f8fa!important}
+/* Ensure ambient objects stay behind text, controls, and images */
+body>*:not(.bio-float-field){position:relative;z-index:1} body>.bio-float-field{position:fixed!important;z-index:0!important}
+img, picture, figure, article, main, section, .container, .content, .wrapper{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
 </head>
 
 <body>
+<div class="bio-float-field" aria-hidden="true" id="bioFloatField"><span class="bio-float" style="left:3%;top:12%;--dur:19s;--delay:-2s;--dx:-60px;--o:0.46" aria-hidden="true">🧬</span><span class="bio-float" style="left:88%;top:15%;--dur:22s;--delay:-4s;--dx:50px;--o:0.56" aria-hidden="true">🔬</span><span class="bio-float" style="left:14%;top:27%;--dur:18s;--delay:-6s;--dx:48px;--o:0.66" aria-hidden="true">🧫</span><span class="bio-float" style="left:94%;top:33%;--dur:21s;--delay:-8s;--dx:-55px;--o:0.36" aria-hidden="true">🧪</span><span class="bio-float" style="left:6%;top:45%;--dur:20s;--delay:-10s;--dx:60px;--o:0.46" aria-hidden="true">🦠</span><span class="bio-float" style="left:83%;top:49%;--dur:17s;--delay:-12s;--dx:-48px;--o:0.56" aria-hidden="true">🩸</span><span class="bio-float" style="left:18%;top:63%;--dur:23s;--delay:-14s;--dx:-65px;--o:0.66" aria-hidden="true">⚗️</span><span class="bio-float" style="left:91%;top:66%;--dur:19s;--delay:-16s;--dx:55px;--o:0.36" aria-hidden="true">🧬</span><span class="bio-float" style="left:4%;top:77%;--dur:21s;--delay:-0s;--dx:50px;--o:0.46" aria-hidden="true">🧪</span><span class="bio-float" style="left:78%;top:82%;--dur:24s;--delay:-2s;--dx:-60px;--o:0.56" aria-hidden="true">🔬</span><span class="bio-float" style="left:25%;top:88%;--dur:18s;--delay:-4s;--dx:48px;--o:0.66" aria-hidden="true">🧫</span><span class="bio-float" style="left:97%;top:8%;--dur:23s;--delay:-6s;--dx:-50px;--o:0.36" aria-hidden="true">🦠</span><span class="bio-float" style="left:49%;top:8%;--dur:20s;--delay:-8s;--dx:60px;--o:0.46" aria-hidden="true">🧬</span><span class="bio-float" style="left:57%;top:24%;--dur:22s;--delay:-10s;--dx:-55px;--o:0.56" aria-hidden="true">🧬</span><span class="bio-float" style="left:44%;top:39%;--dur:18s;--delay:-12s;--dx:48px;--o:0.66" aria-hidden="true">🧫</span><span class="bio-float" style="left:63%;top:57%;--dur:21s;--delay:-14s;--dx:-60px;--o:0.36" aria-hidden="true">🧪</span><span class="bio-float" style="left:36%;top:73%;--dur:19s;--delay:-16s;--dx:50px;--o:0.46" aria-hidden="true">🩸</span><span class="bio-float" style="left:68%;top:91%;--dur:23s;--delay:-0s;--dx:-48px;--o:0.56" aria-hidden="true">⚛️</span><span class="bio-float" style="left:31%;top:5%;--dur:20s;--delay:-2s;--dx:48px;--o:0.66" aria-hidden="true">🧬</span><span class="bio-float" style="left:70%;top:35%;--dur:22s;--delay:-4s;--dx:-50px;--o:0.36" aria-hidden="true">🔬</span></div>
 
 <header class="header">
   <div class="header-content">
