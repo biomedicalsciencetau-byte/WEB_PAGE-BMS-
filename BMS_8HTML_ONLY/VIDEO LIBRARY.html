@@ -122,36 +122,44 @@ body{
   height:300px;
   padding:7px;
   background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.video-wrap video{
+.video-wrap iframe{
   width:100%;
   height:100%;
   display:block;
+  border:0;
   border-radius:11px;
   background:#000;
-  object-fit:fill;
+}
+
+.short-video .video-wrap{height:390px}
+.short-video .video-wrap iframe{
+  width:auto;
+  max-width:100%;
+  aspect-ratio:9 / 16;
 }
 
 /* TITLE */
 .video-title{
-  padding:12px 13px;
+  padding:12px 13px 4px;
   color:var(--navy);
   font-size:13px;
   font-weight:800;
-  display:none;
 }
 
-/* EMPTY / ERROR */
-.empty{
-  display:none;
-  text-align:center;
-  padding:45px 20px;
-  border:1px dashed #bfd4db;
-  border-radius:17px;
-  background:#fff;
-  color:var(--muted);
+.watch-link{
+  display:inline-block;
+  margin:7px 13px 14px;
+  color:var(--teal);
+  font-size:13px;
+  font-weight:700;
+  text-decoration:none;
 }
+.watch-link:hover{color:#06586b;text-decoration:underline}
 
 /* FOOTER */
 footer{
@@ -193,15 +201,84 @@ footer{
     padding:5px;
   }
 
-  .video-wrap video{
+  .video-wrap iframe{
     border-radius:9px;
   }
+  .short-video .video-wrap{height:390px}
 
 }
+</style>
+<style id="biomedical-floating-objects-style">
+/* Ambient biomedical objects: decorative, non-interactive, and lightweight */
+.bio-float-field{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;contain:strict;opacity:.56}
+.bio-float{position:absolute;display:grid;place-items:center;width:clamp(28px,3.4vw,52px);height:clamp(28px,3.4vw,52px);font-size:clamp(24px,2.8vw,42px);line-height:1;filter:drop-shadow(0 5px 8px rgba(27,89,83,.13));opacity:var(--o,.58);animation:bioDrift var(--dur,17s) ease-in-out infinite alternate;animation-delay:var(--delay,0s);transform:translate3d(0,0,0)}
+.bio-float svg{width:100%;height:100%;overflow:visible}
+@keyframes bioDrift{0%{transform:translate3d(0,0,0) rotate(-8deg)}50%{transform:translate3d(var(--dx,12px),-22px,0) rotate(8deg)}100%{transform:translate3d(calc(var(--dx,12px) * -1),12px,0) rotate(-5deg)}}
+html[data-theme="dark"] .bio-float-field{opacity:.34}
+@media(prefers-reduced-motion:reduce){.bio-float{animation:none!important}}
+@media(max-width:700px){.bio-float-field{opacity:.36}.bio-float{width:27px;height:27px;font-size:25px}}
+</style>
+<style id="biomedical-floating-motion-upgrade">
+/* V9: visibly moving ambient scientific objects */
+.bio-float-field{z-index:2;opacity:.72;isolation:isolate}
+.bio-float{width:clamp(34px,4.2vw,64px);height:clamp(34px,4.2vw,64px);font-size:clamp(29px,3.5vw,49px);will-change:transform;animation:bioTravel var(--dur,14s) ease-in-out infinite;animation-delay:var(--delay,0s);filter:drop-shadow(0 7px 12px rgba(27,89,83,.22))}
+@keyframes bioTravel{0%{transform:translate3d(0,0,0) rotate(-12deg) scale(.92)}20%{transform:translate3d(calc(var(--dx,70px)*.55),-42px,0) rotate(8deg) scale(1.06)}45%{transform:translate3d(var(--dx,70px),18px,0) rotate(18deg) scale(1)}70%{transform:translate3d(calc(var(--dx,70px)*-.55),-54px,0) rotate(-8deg) scale(1.08)}100%{transform:translate3d(0,0,0) rotate(-12deg) scale(.92)}}
+.bio-float:nth-child(3n){animation-name:bioOrbit;animation-duration:var(--dur,18s)}
+@keyframes bioOrbit{0%{transform:translate3d(0,0,0) rotate(0) scale(.9)}25%{transform:translate3d(48px,-30px,0) rotate(90deg) scale(1.08)}50%{transform:translate3d(18px,45px,0) rotate(180deg) scale(1)}75%{transform:translate3d(-38px,15px,0) rotate(270deg) scale(.94)}100%{transform:translate3d(0,0,0) rotate(360deg) scale(.9)}}
+.bio-float:nth-child(4n){animation-name:bioRise;animation-duration:var(--dur,16s)}
+@keyframes bioRise{0%{transform:translate3d(0,35px,0) rotate(-14deg)}50%{transform:translate3d(30px,-65px,0) rotate(14deg)}100%{transform:translate3d(-22px,25px,0) rotate(-10deg)}}
+html[data-theme="dark"] .bio-float-field{opacity:.58}
+@media(max-width:700px){.bio-float-field{opacity:.43}.bio-float{width:30px;height:30px;font-size:27px}}
+@media(prefers-reduced-motion:reduce){.bio-float{animation:none!important;will-change:auto}}
+</style>
+<style id="biomedical-floating-free-space-fix">
+/* V10: keep animated biomedical objects behind the page content, visible only in open/background space */
+.bio-float-field{z-index:0!important;opacity:.42!important;pointer-events:none!important;mix-blend-mode:multiply}
+.bio-float{z-index:0!important;filter:drop-shadow(0 3px 6px rgba(27,89,83,.12))!important}
+/* Ensure normal content paints above the ambient floating layer */
+body>.reading-progress,body>.topbar,body>header,body>nav,body>main,body>section,body>footer,body>.modal,body>.search-overlay,body>.container{position:relative;z-index:1}
+html[data-theme="dark"] .bio-float-field{opacity:.22!important;mix-blend-mode:screen}
+@media(max-width:700px){.bio-float-field{opacity:.24!important}.bio-float{font-size:24px!important}}
+@media(prefers-reduced-motion:reduce){.bio-float{animation:none!important}}
+</style>
+<style id="biomedical-floating-efficiency-v11">
+/* V11: lighter, smoother ambient motion; keep objects subtle and out of the way */
+.bio-float-field{opacity:.30!important;contain:strict;isolation:isolate}
+.bio-float{width:clamp(26px,3vw,44px)!important;height:clamp(26px,3vw,44px)!important;font-size:clamp(23px,2.6vw,36px)!important;filter:drop-shadow(0 2px 4px rgba(27,89,83,.10))!important;will-change:transform;backface-visibility:hidden}
+html[data-theme="dark"] .bio-float-field{opacity:.20!important}
+@media(max-width:700px){.bio-float-field{opacity:.18!important}.bio-float{width:24px!important;height:24px!important;font-size:22px!important}}
+@media(prefers-reduced-motion:reduce){.bio-float-field{display:none!important}.bio-float{animation:none!important;will-change:auto!important}}
+</style>
+<style id="biomedical-floating-brightness-v12">
+/* V12: slightly brighter ambient biomedical objects while preserving readable content */
+.bio-float-field{opacity:.43!important}
+.bio-float{filter:drop-shadow(0 3px 7px rgba(28,116,106,.20))!important}
+html[data-theme="dark"] .bio-float-field{opacity:.30!important}
+@media(max-width:700px){.bio-float-field{opacity:.27!important}}
+@media(prefers-reduced-motion:reduce){.bio-float-field{display:none!important}}
+</style>
+<style id="apollo-v13-unified-theme">
+:root{--navy:#062c3c;--navy2:#0b3b4f;--gold:#efb91c;--teal:#087d95;--ink:#15212a;--muted:#62717a;--paper:#f1f8fa;--line:#d8e7eb;--white:#fff;--shadow:0 18px 50px rgba(6,44,60,.12);--radius:18px}
+html{scroll-behavior:smooth} body{background:#f4f9fb!important;color:#15212a!important}
+header,nav,.topbar,.navbar,.site-header,.main-header,.header,.hero,.page-header,.banner,.title-bar,.section-header{background:linear-gradient(120deg,#062c3c,#0b5368)!important;color:#fff!important}
+header a,nav a,.topbar a,.navbar a,.site-header a,.main-header a,.header a,.hero a,.page-header a,.banner a{color:#fff!important}
+button,.btn,.button,input[type=submit],.submit-btn,.filter-btn.active,.tab.active{background:#087d95!important;color:#fff!important;border-color:#087d95!important}
+button:hover,.btn:hover,.button:hover,input[type=submit]:hover{background:#06586b!important}
+.card,.panel,.tile,.content-card,.faculty-card,.research-card,.gallery-card,.achievement-card,.project-card,.article-card,.video-card,.photo-card,.stat-card,.box,.modal-content{border-color:#d8e7eb!important;box-shadow:0 10px 28px rgba(6,44,60,.09)!important}
+.card,.panel,.tile,.content-card,.faculty-card,.research-card,.gallery-card,.achievement-card,.project-card,.article-card,.video-card,.photo-card,.stat-card{background:rgba(255,255,255,.96)!important}
+h1,h2,h3,h4,.section-title,.page-title{color:#062c3c}
+a{transition:color .2s ease} a:hover{color:#087d95}
+input,select,textarea{border-color:#c7dce2!important} input:focus,select:focus,textarea:focus{outline:2px solid rgba(8,125,149,.25)!important;border-color:#087d95!important}
+footer,.footer,.site-footer{background:#062c3c!important;color:#f3f8fa!important} footer a,.footer a,.site-footer a{color:#f3f8fa!important}
+/* Ensure ambient objects stay behind text, controls, and images */
+body>*:not(.bio-float-field){position:relative;z-index:1} body>.bio-float-field{position:fixed!important;z-index:0!important}
+img, picture, figure, article, main, section, .container, .content, .wrapper{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 
 <body>
+<div class="bio-float-field" aria-hidden="true" id="bioFloatField"><span class="bio-float" style="left:3%;top:12%;--dur:19s;--delay:-2s;--dx:-60px;--o:0.46" aria-hidden="true">🧬</span><span class="bio-float" style="left:88%;top:15%;--dur:22s;--delay:-4s;--dx:50px;--o:0.56" aria-hidden="true">🔬</span><span class="bio-float" style="left:14%;top:27%;--dur:18s;--delay:-6s;--dx:48px;--o:0.66" aria-hidden="true">🧫</span><span class="bio-float" style="left:94%;top:33%;--dur:21s;--delay:-8s;--dx:-55px;--o:0.36" aria-hidden="true">🧪</span><span class="bio-float" style="left:6%;top:45%;--dur:20s;--delay:-10s;--dx:60px;--o:0.46" aria-hidden="true">🦠</span><span class="bio-float" style="left:83%;top:49%;--dur:17s;--delay:-12s;--dx:-48px;--o:0.56" aria-hidden="true">🩸</span><span class="bio-float" style="left:18%;top:63%;--dur:23s;--delay:-14s;--dx:-65px;--o:0.66" aria-hidden="true">⚗️</span><span class="bio-float" style="left:91%;top:66%;--dur:19s;--delay:-16s;--dx:55px;--o:0.36" aria-hidden="true">🧬</span><span class="bio-float" style="left:4%;top:77%;--dur:21s;--delay:-0s;--dx:50px;--o:0.46" aria-hidden="true">🧪</span><span class="bio-float" style="left:78%;top:82%;--dur:24s;--delay:-2s;--dx:-60px;--o:0.56" aria-hidden="true">🔬</span><span class="bio-float" style="left:25%;top:88%;--dur:18s;--delay:-4s;--dx:48px;--o:0.66" aria-hidden="true">🧫</span><span class="bio-float" style="left:97%;top:8%;--dur:23s;--delay:-6s;--dx:-50px;--o:0.36" aria-hidden="true">🦠</span><span class="bio-float" style="left:49%;top:8%;--dur:20s;--delay:-8s;--dx:60px;--o:0.46" aria-hidden="true">🧬</span><span class="bio-float" style="left:57%;top:24%;--dur:22s;--delay:-10s;--dx:-55px;--o:0.56" aria-hidden="true">🧬</span><span class="bio-float" style="left:44%;top:39%;--dur:18s;--delay:-12s;--dx:48px;--o:0.66" aria-hidden="true">🧫</span><span class="bio-float" style="left:63%;top:57%;--dur:21s;--delay:-14s;--dx:-60px;--o:0.36" aria-hidden="true">🧪</span><span class="bio-float" style="left:36%;top:73%;--dur:19s;--delay:-16s;--dx:50px;--o:0.46" aria-hidden="true">🩸</span><span class="bio-float" style="left:68%;top:91%;--dur:23s;--delay:-0s;--dx:-48px;--o:0.56" aria-hidden="true">⚛️</span><span class="bio-float" style="left:31%;top:5%;--dur:20s;--delay:-2s;--dx:48px;--o:0.66" aria-hidden="true">🧬</span><span class="bio-float" style="left:70%;top:35%;--dur:22s;--delay:-4s;--dx:-50px;--o:0.36" aria-hidden="true">🔬</span></div>
 
 <header class="header">
   <div class="header-content">
@@ -216,14 +293,30 @@ footer{
 
     <div class="video-inner">
 
-      <div
-        id="gallery"
-        class="gallery"
-        aria-label="Department Video Library">
-      </div>
+      <div id="gallery" class="gallery" aria-label="Department Video Library">
+        <article class="video-card long-video">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube-nocookie.com/embed/9rUVjwQALSI" title="Department of Biomedical Sciences — Long Video" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <div class="video-title">Featured Video</div>
+          <a class="watch-link" href="https://youtu.be/9rUVjwQALSI?si=_m_OmRpyMGNI1QTw" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+        </article>
 
-      <div id="empty" class="empty">
-        No videos found in the Video Library.
+        <article class="video-card short-video">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube-nocookie.com/embed/Z5G0YxDL_cE" title="Biomedical Sciences YouTube Short 1" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <div class="video-title">YouTube Short</div>
+          <a class="watch-link" href="https://youtube.com/shorts/Z5G0YxDL_cE?si=ZfQw8MevzL2Wo7ZK" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+        </article>
+
+        <article class="video-card short-video">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube-nocookie.com/embed/_spS0upWGdE" title="Biomedical Sciences YouTube Short 2" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <div class="video-title">YouTube Short</div>
+          <a class="watch-link" href="https://youtube.com/shorts/_spS0upWGdE?si=J1zvvgSPUVx67XRs" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+        </article>
       </div>
 
     </div>
@@ -236,167 +329,7 @@ footer{
   © The Apollo University · Department of Biomedical Sciences
 </footer>
 
-<script>
-
-/* =========================================================
-   VIDEO MANIFEST
-   =========================================================
-
-   GitHub Actions automatically generates:
-
-   video-library.json
-
-   The JSON contains video filenames and paths.
-   No video filenames need to be manually added here.
-   ========================================================= */
-
-const VIDEO_MANIFEST = "../video-library.json";
-
-const gallery = document.getElementById("gallery");
-const empty = document.getElementById("empty");
-
-let videos = [];
-
-
-/* =========================================================
-   LOAD VIDEO MANIFEST
-   ========================================================= */
-
-async function loadVideos(){
-
-  try{
-
-    const response = await fetch(
-      VIDEO_MANIFEST + "?v=" + Date.now(),
-      {
-        cache:"no-store"
-      }
-    );
-
-    if(!response.ok){
-      throw new Error("Video manifest could not be loaded.");
-    }
-
-    const data = await response.json();
-
-    videos = Array.isArray(data) ? data : [];
-
-    renderVideos();
-
-  }catch(error){
-
-    console.error("Video Library:",error);
-
-    gallery.innerHTML = "";
-
-    empty.textContent =
-      "Unable to load the Video Library.";
-
-    empty.style.display = "block";
-
-  }
-
-}
-
-
-/* =========================================================
-   RENDER VIDEOS
-   ========================================================= */
-
-function renderVideos(){
-
-  gallery.innerHTML = "";
-
-  if(!videos.length){
-
-    empty.textContent =
-      "No videos found in the Video Library.";
-
-    empty.style.display = "block";
-
-    return;
-  }
-
-  empty.style.display = "none";
-
-  videos.forEach(videoData => {
-
-    const card =
-      document.createElement("article");
-
-    card.className =
-      "video-card";
-
-
-    const wrap =
-      document.createElement("div");
-
-    wrap.className =
-      "video-wrap";
-
-
-    const video =
-      document.createElement("video");
-
-    video.controls = true;
-
-    video.preload = "metadata";
-
-    video.playsInline = true;
-
-    video.setAttribute(
-      "aria-label",
-      videoData.name ||
-      "Department video"
-    );
-
-
-    const source =
-      document.createElement("source");
-
-    source.src =
-      videoData.src;
-
-    if(videoData.type){
-      source.type =
-        videoData.type;
-    }
-
-
-    video.appendChild(source);
-
-
-    const title =
-      document.createElement("div");
-
-    title.className =
-      "video-title";
-
-    title.textContent =
-      videoData.name ||
-      "Department Video";
-
-
-    wrap.appendChild(video);
-
-    card.appendChild(wrap);
-
-    card.appendChild(title);
-
-    gallery.appendChild(card);
-
-  });
-
-}
-
-
-/* =========================================================
-   START
-   ========================================================= */
-
-loadVideos();
-
-</script>
+<!-- Videos are embedded directly from YouTube; no JSON manifest or local video files are needed. -->
 
 </body>
 </html>
