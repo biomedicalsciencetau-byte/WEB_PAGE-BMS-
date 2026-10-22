@@ -431,13 +431,34 @@ img, picture, figure, article, main, section, .container, .content, .wrapper{pos
 const PHOTO_MANIFEST = "../photo-library-images.json";
 // Resolve assets from the repository root (works on GitHub Project Pages).
 const SITE_ROOT = new URL("../", window.location.href);
+function photoAssetCandidates(photo, size = "original") {
+  // Prefer the explicit URLs supplied by the manifest, when available.
+  const supplied = size === "thumbnail"
+    ? (photo.thumbnail || photo.thumbnailUrl || photo.thumb)
+    : (photo.original || photo.originalUrl || photo.url || photo.path);
+  const candidates = [];
+  if (supplied) candidates.push(new URL(supplied, SITE_ROOT).href);
+  const name = photo.name || photo.filename || photo.fileName || "";
+  if (name) {
+    const file = encodeURIComponent(name);
+    const folder = "ALL%20PHOTOS/";
+    const relative = size === "thumbnail" ? folder + "thumbnails/" + file : folder + file;
+    candidates.push(new URL(relative, SITE_ROOT).href);
+  }
+  return [...new Set(candidates)];
+}
 function photoAssetUrl(photo, size = "original") {
-  const folder = "ALL%20PHOTOS/";
-  const file = encodeURIComponent(photo.name || "");
-  const relativePath = size === "thumbnail"
-    ? folder + "thumbnails/" + file
-    : folder + file;
-  return new URL(relativePath, SITE_ROOT).href;
+  return photoAssetCandidates(photo, size)[0] || "";
+}
+function loadImageWithFallback(image, candidates, onAllFailed) {
+  let index = 0;
+  image.onerror = () => {
+    index += 1;
+    if (index < candidates.length) image.src = candidates[index];
+    else if (onAllFailed) onAllFailed();
+  };
+  if (candidates.length) image.src = candidates[0];
+  else if (onAllFailed) onAllFailed();
 }
 
 const gallery = document.getElementById("gallery");
@@ -532,7 +553,10 @@ function renderPhotos(){
 
     const img = document.createElement("img");
 
-    img.src = photoAssetUrl(photo, "thumbnail");
+    loadImageWithFallback(img, photoAssetCandidates(photo, "thumbnail"), () => {
+      img.style.display = "none";
+      placeholder.style.display = "grid";
+    });
 
     img.alt =
       photo.name ||
@@ -578,18 +602,14 @@ function renderPhotos(){
         return;
       }
 
-      lightboxImage.onerror = function(){
-        console.error("Could not load full-size Photo Library image:", lightboxImage.src);
-      };
-      lightboxImage.src = photoAssetUrl(photo, "original");
-
-      lightboxImage.alt =
-        img.alt;
-
+      lightboxImage.alt = img.alt;
       lightbox.classList.add("open");
-
-      document.body.style.overflow =
-        "hidden";
+      document.body.style.overflow = "hidden";
+      loadImageWithFallback(lightboxImage, photoAssetCandidates(photo, "original"), () => {
+        console.error("Could not load full-size Photo Library image for:", photo.name || photo.filename);
+        lightbox.classList.remove("open");
+        document.body.style.overflow = "";
+      });
 
     }
 
