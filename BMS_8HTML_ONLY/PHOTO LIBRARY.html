@@ -429,6 +429,16 @@ img, picture, figure, article, main, section, .container, .content, .wrapper{pos
    ========================================================= */
 
 const PHOTO_MANIFEST = "../photo-library-images.json";
+// Resolve assets from the repository root (works on GitHub Project Pages).
+const SITE_ROOT = new URL("../", window.location.href);
+function photoAssetUrl(photo, size = "original") {
+  const folder = "ALL%20PHOTOS/";
+  const file = encodeURIComponent(photo.name || "");
+  const relativePath = size === "thumbnail"
+    ? folder + "thumbnails/" + file
+    : folder + file;
+  return new URL(relativePath, SITE_ROOT).href;
+}
 
 const gallery = document.getElementById("gallery");
 const empty = document.getElementById("empty");
@@ -522,7 +532,7 @@ function renderPhotos(){
 
     const img = document.createElement("img");
 
-    img.src = new URL(photo.thumbnail, document.baseURI).href;
+    img.src = photoAssetUrl(photo, "thumbnail");
 
     img.alt =
       photo.name ||
@@ -568,19 +578,17 @@ function renderPhotos(){
       }
 
       lightboxImage.onerror = function(){
-        console.error("Photo Library original image failed to load:", lightboxImage.src);
-        lightbox.classList.remove("open");
-        document.body.style.overflow = "";
-        alert("The full-size photo could not be loaded. Please check that the original file exists in the GitHub repository.");
+        console.error("Could not load full-size Photo Library image:", lightboxImage.src);
       };
+      lightboxImage.src = photoAssetUrl(photo, "original");
 
-      lightboxImage.onload = function(){
-        lightbox.classList.add("open");
-        document.body.style.overflow = "hidden";
-      };
+      lightboxImage.alt =
+        img.alt;
 
-      lightboxImage.src = new URL(photo.original, document.baseURI).href;
-      lightboxImage.alt = img.alt;
+      lightbox.classList.add("open");
+
+      document.body.style.overflow =
+        "hidden";
 
     }
 
