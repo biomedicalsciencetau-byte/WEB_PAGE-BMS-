@@ -538,9 +538,10 @@ function renderPhotos(){
       photo.name ||
       "Department of Biomedical Sciences photo";
 
-    img.loading = "lazy";
-
+    // Load the first visible thumbnails immediately; defer images further down the page.
+    img.loading = index < 3 ? "eager" : "lazy";
     img.decoding = "async";
+    if (index < 3) img.fetchPriority = "high";
 
 
     const placeholder =
