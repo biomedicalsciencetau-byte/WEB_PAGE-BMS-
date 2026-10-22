@@ -357,13 +357,9 @@ async function loadStudentAchievements(){
 
       const img = document.createElement("img");
 
-      // The JSON provides separate thumbnail and original image paths.
-      // Use the thumbnail in the grid and the original in the lightbox.
-      const thumbnailSrc = photo.thumbnail || photo.original || photo.src;
-      const originalSrc = photo.original || photo.thumbnail || photo.src;
-
-      img.src = thumbnailSrc;
-      img.alt = photo.name || "Student achievement";
+      // Load the fast thumbnail from the JSON manifest.
+      img.src = photo.thumbnail || photo.original || "";
+      img.alt = photo.name || "";
       img.loading = "lazy";
 
       const placeholder = document.createElement("div");
@@ -383,7 +379,8 @@ async function loadStudentAchievements(){
 
         if(img.style.display !== "none"){
 
-          lightboxImage.src = originalSrc;
+          // Open the original, full-resolution photo in the lightbox.
+          lightboxImage.src = photo.original || photo.thumbnail || img.src;
           lightboxImage.alt = img.alt;
 
           lightbox.classList.add("open");
