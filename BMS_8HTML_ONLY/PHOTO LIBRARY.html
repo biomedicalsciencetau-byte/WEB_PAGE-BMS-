@@ -522,7 +522,7 @@ function renderPhotos(){
 
     const img = document.createElement("img");
 
-    img.src = photo.thumbnail;
+    img.src = new URL(photo.thumbnail, document.baseURI).href;
 
     img.alt =
       photo.name ||
@@ -567,15 +567,20 @@ function renderPhotos(){
         return;
       }
 
-      lightboxImage.src = photo.original;
+      lightboxImage.onerror = function(){
+        console.error("Photo Library original image failed to load:", lightboxImage.src);
+        lightbox.classList.remove("open");
+        document.body.style.overflow = "";
+        alert("The full-size photo could not be loaded. Please check that the original file exists in the GitHub repository.");
+      };
 
-      lightboxImage.alt =
-        img.alt;
+      lightboxImage.onload = function(){
+        lightbox.classList.add("open");
+        document.body.style.overflow = "hidden";
+      };
 
-      lightbox.classList.add("open");
-
-      document.body.style.overflow =
-        "hidden";
+      lightboxImage.src = new URL(photo.original, document.baseURI).href;
+      lightboxImage.alt = img.alt;
 
     }
 
