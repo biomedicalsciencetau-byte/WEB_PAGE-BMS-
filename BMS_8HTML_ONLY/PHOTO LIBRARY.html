@@ -437,7 +437,7 @@ function photoAssetCandidates(photo, size = "original") {
     ? (photo.thumbnail || photo.thumbnailUrl || photo.thumb)
     : (photo.original || photo.originalUrl || photo.url || photo.path);
   const candidates = [];
-  if (supplied) candidates.push(new URL(supplied, SITE_ROOT).href);
+  if (supplied) candidates.push(new URL(supplied, window.location.href).href);
   const name = photo.name || photo.filename || photo.fileName || "";
   if (name) {
     const file = encodeURIComponent(name);

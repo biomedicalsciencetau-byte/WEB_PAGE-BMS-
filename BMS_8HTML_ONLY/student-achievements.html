@@ -357,7 +357,8 @@ async function loadStudentAchievements(){
 
       const img = document.createElement("img");
 
-      img.src = photo.src;
+      const thumbnailPath = photo.thumbnail || photo.src || photo.original;
+      img.src = thumbnailPath ? new URL(thumbnailPath, window.location.href).href : "";
       img.alt = photo.name || "";
       img.loading = "lazy";
 
@@ -378,7 +379,10 @@ async function loadStudentAchievements(){
 
         if(img.style.display !== "none"){
 
-          lightboxImage.src = img.src;
+          const originalPath = photo.original || photo.url || photo.src || photo.thumbnail;
+          lightboxImage.src = originalPath
+            ? new URL(originalPath, window.location.href).href
+            : "";
           lightboxImage.alt = img.alt;
 
           lightbox.classList.add("open");
