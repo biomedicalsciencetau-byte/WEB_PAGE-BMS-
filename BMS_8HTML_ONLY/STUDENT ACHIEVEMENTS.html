@@ -327,13 +327,36 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const closeBtn = document.getElementById("closeBtn");
 const SITE_ROOT = new URL("../", window.location.href);
+function achievementAssetCandidates(photo, size = "original") {
+  // Use manifest URLs first; otherwise try both common spellings of the folder.
+  const supplied = size === "thumbnail"
+    ? (photo.thumbnail || photo.thumbnailUrl || photo.thumb)
+    : (photo.original || photo.originalUrl || photo.url || photo.path);
+  const candidates = [];
+  if (supplied) candidates.push(new URL(supplied, SITE_ROOT).href);
+  const name = photo.name || photo.filename || photo.fileName || "";
+  if (name) {
+    const file = encodeURIComponent(name);
+    const folders = ["STUDENT%20ACHIEVEMENTS/", "STUDENT%20ACIEVEMENTS/"];
+    folders.forEach(folder => {
+      const relative = size === "thumbnail" ? folder + "thumbnails/" + file : folder + file;
+      candidates.push(new URL(relative, SITE_ROOT).href);
+    });
+  }
+  return [...new Set(candidates)];
+}
 function achievementAssetUrl(photo, size = "original") {
-  const folder = "STUDENT%20ACIEVEMENTS/";
-  const file = encodeURIComponent(photo.name || "");
-  const relativePath = size === "thumbnail"
-    ? folder + "thumbnails/" + file
-    : folder + file;
-  return new URL(relativePath, SITE_ROOT).href;
+  return achievementAssetCandidates(photo, size)[0] || "";
+}
+function loadImageWithFallback(image, candidates, onAllFailed) {
+  let index = 0;
+  image.onerror = () => {
+    index += 1;
+    if (index < candidates.length) image.src = candidates[index];
+    else if (onAllFailed) onAllFailed();
+  };
+  if (candidates.length) image.src = candidates[0];
+  else if (onAllFailed) onAllFailed();
 }
 
 async function loadStudentAchievements(){
@@ -366,8 +389,7 @@ async function loadStudentAchievements(){
 
       const img = document.createElement("img");
 
-      img.src = achievementAssetUrl(photo, "thumbnail");
-      img.alt = photo.name || "";
+      img.alt = photo.name || photo.filename || "";
       // Load the first visible thumbnails immediately; defer images further down the page.
       img.loading = index < 3 ? "eager" : "lazy";
       img.decoding = "async";
@@ -377,11 +399,10 @@ async function loadStudentAchievements(){
       placeholder.className = "placeholder";
       placeholder.textContent = "Image not found";
       placeholder.style.display = "none";
-
-      img.onerror = () => {
+      loadImageWithFallback(img, achievementAssetCandidates(photo, "thumbnail"), () => {
         img.style.display = "none";
         placeholder.style.display = "grid";
-      };
+      });
 
       box.appendChild(img);
       box.appendChild(placeholder);
@@ -390,14 +411,14 @@ async function loadStudentAchievements(){
 
         if(img.style.display !== "none"){
 
-          lightboxImage.onerror = () => {
-            console.error("Could not load full-size Student Achievement image:", lightboxImage.src);
-          };
-          lightboxImage.src = achievementAssetUrl(photo, "original");
           lightboxImage.alt = img.alt;
-
           lightbox.classList.add("open");
           document.body.style.overflow = "hidden";
+          loadImageWithFallback(lightboxImage, achievementAssetCandidates(photo, "original"), () => {
+            console.error("Could not load full-size Student Achievement image for:", photo.name || photo.filename);
+            lightbox.classList.remove("open");
+            document.body.style.overflow = "";
+          });
         }
 
       };
