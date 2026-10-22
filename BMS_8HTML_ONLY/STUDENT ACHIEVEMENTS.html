@@ -326,6 +326,15 @@ const gallery = document.getElementById("gallery");
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const closeBtn = document.getElementById("closeBtn");
+const SITE_ROOT = new URL("../", window.location.href);
+function achievementAssetUrl(photo, size = "original") {
+  const folder = "STUDENT%20ACIEVEMENTS/";
+  const file = encodeURIComponent(photo.name || "");
+  const relativePath = size === "thumbnail"
+    ? folder + "thumbnails/" + file
+    : folder + file;
+  return new URL(relativePath, SITE_ROOT).href;
+}
 
 async function loadStudentAchievements(){
 
@@ -357,7 +366,7 @@ async function loadStudentAchievements(){
 
       const img = document.createElement("img");
 
-      img.src = new URL(photo.thumbnail, document.baseURI).href;
+      img.src = achievementAssetUrl(photo, "thumbnail");
       img.alt = photo.name || "";
       img.loading = "lazy";
 
@@ -377,18 +386,15 @@ async function loadStudentAchievements(){
       box.onclick = () => {
 
         if(img.style.display !== "none"){
+
           lightboxImage.onerror = () => {
-            console.error("Could not load original student achievement image:", lightboxImage.src);
-            lightbox.classList.remove("open");
-            document.body.style.overflow = "";
-            alert("The full-size image could not be loaded. Please check that the original photo exists in the GitHub repository.");
+            console.error("Could not load full-size Student Achievement image:", lightboxImage.src);
           };
-          lightboxImage.onload = () => {
-            lightbox.classList.add("open");
-            document.body.style.overflow = "hidden";
-          };
-          lightboxImage.src = new URL(photo.original, document.baseURI).href;
+          lightboxImage.src = achievementAssetUrl(photo, "original");
           lightboxImage.alt = img.alt;
+
+          lightbox.classList.add("open");
+          document.body.style.overflow = "hidden";
         }
 
       };
