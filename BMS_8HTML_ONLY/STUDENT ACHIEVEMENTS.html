@@ -357,8 +357,7 @@ async function loadStudentAchievements(){
 
       const img = document.createElement("img");
 
-      // Load the fast thumbnail from the JSON manifest.
-      img.src = photo.thumbnail || photo.original || "";
+      img.src = new URL(photo.thumbnail, document.baseURI).href;
       img.alt = photo.name || "";
       img.loading = "lazy";
 
@@ -378,13 +377,18 @@ async function loadStudentAchievements(){
       box.onclick = () => {
 
         if(img.style.display !== "none"){
-
-          // Open the original, full-resolution photo in the lightbox.
-          lightboxImage.src = photo.original || photo.thumbnail || img.src;
+          lightboxImage.onerror = () => {
+            console.error("Could not load original student achievement image:", lightboxImage.src);
+            lightbox.classList.remove("open");
+            document.body.style.overflow = "";
+            alert("The full-size image could not be loaded. Please check that the original photo exists in the GitHub repository.");
+          };
+          lightboxImage.onload = () => {
+            lightbox.classList.add("open");
+            document.body.style.overflow = "hidden";
+          };
+          lightboxImage.src = new URL(photo.original, document.baseURI).href;
           lightboxImage.alt = img.alt;
-
-          lightbox.classList.add("open");
-          document.body.style.overflow = "hidden";
         }
 
       };
